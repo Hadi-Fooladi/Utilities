@@ -1,0 +1,1 @@
+nuget pack ..\Utilities.WPF.csproj -Prop Configuration=Release

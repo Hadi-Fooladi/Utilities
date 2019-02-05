@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{C45806D7-53CB-4B08-90CF-CA8E08A15914}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Utilities.csproj", "{C45806D7-53CB-4B08-90CF-CA8E08A15914}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities.WPF", "Utilities.WPF\Utilities.WPF.csproj", "{4687371F-0A12-4471-B136-6F18BDBFF6A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C45806D7-53CB-4B08-90CF-CA8E08A15914}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C45806D7-53CB-4B08-90CF-CA8E08A15914}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C45806D7-53CB-4B08-90CF-CA8E08A15914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4687371F-0A12-4471-B136-6F18BDBFF6A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4687371F-0A12-4471-B136-6F18BDBFF6A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4687371F-0A12-4471-B136-6F18BDBFF6A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4687371F-0A12-4471-B136-6F18BDBFF6A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
