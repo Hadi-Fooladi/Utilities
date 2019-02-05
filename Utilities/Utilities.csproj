@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>HaFT.Utilities</AssemblyName>
     <RootNamespace>HaFT.Utilities</RootNamespace>
-    <Version>1.0.2</Version>
+    <Version>1.1.3</Version>
     <Authors>Hadi Fooladi Talari</Authors>
     <Company>HaFT</Company>
     <PackageTags>HaFT Utility</PackageTags>
