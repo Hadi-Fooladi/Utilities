@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>HaFT.Utilities.HtmlTextBuilder</RootNamespace>
+    <AssemblyName>HaFT.Utilities.HtmlTextBuilder</AssemblyName>
+    <Version>1.0.1</Version>
+    <Authors>Hadi Fooladi Talari</Authors>
+    <Company>HaFT</Company>
+    <PackageTags>HaFT Utility HTML Text Builder</PackageTags>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+</Project>
