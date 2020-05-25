@@ -9,6 +9,9 @@
     <Company>HaFT</Company>
     <PackageTags>HaFT Utility HTML Text Builder</PackageTags>
     <LangVersion>latest</LangVersion>
+    <PackageProjectUrl>https://github.com/Hadi-Fooladi/Utilities/tree/master/HtmlTextBuilder</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Hadi-Fooladi/Utilities/tree/master/HtmlTextBuilder</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
 </Project>
