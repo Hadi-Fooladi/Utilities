@@ -15,7 +15,11 @@ namespace HaFT.Utilities.HtmlTextBuilder.Ext
 		public static void OpenTag(this StringBuilder SB, string tagName, IEnumerable<Attribute> attributes)
 		{
 			SB.Append($"<{tagName}");
-			SB.Append(string.Join(" ", attributes));
+			foreach (var a in attributes)
+			{
+				SB.Append(" ");
+				SB.Append(a);
+			}
 			SB.Append(">");
 		}
 	}
