@@ -54,6 +54,9 @@
     <Compile Include="Controls\GrayButton.xaml.cs">
       <DependentUpon>GrayButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BasicDataGrid.xaml.cs">
+      <DependentUpon>BasicDataGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ext\Misc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -85,6 +88,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\GrayButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\BasicDataGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
