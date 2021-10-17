@@ -8,13 +8,25 @@
 	xmlns:HaFT="clr-namespace:HaFT.Utilities.WPF;assembly=HaFT.Utilities.WPF"
 	mc:Ignorable="d"
 	Title="MainWindow" Height="450" Width="800">
-    <Grid>
-			<Grid.ColumnDefinitions>
+	<Grid>
+		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition />
+		</Grid.RowDefinitions>
 
 		<HaFT:GrayButton x:Name="b1" Grid.Column="0" Source="/Resources/Horse.png" Click="b1_OnClick" />
 		<HaFT:GrayButton x:Name="b2" Grid.Column="1" Source="/Resources/Horse.png" Click="b2_OnClick" isEnable="False" />
-    </Grid>
+
+		<HaFT:BasicDataGrid x:Name="BDG" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+			<HaFT:BasicDataGrid.Columns>
+				<DataGridTextColumn Header="Left" Binding="{Binding .}" Width="*" />
+				<DataGridTextColumn Header="Center" Binding="{Binding .}" Width="*" HaFT:BasicDataGrid.Alignment="Center" />
+				<DataGridTextColumn Header="Right" Binding="{Binding .}" Width="*" HaFT:BasicDataGrid.Alignment="Right" />
+			</HaFT:BasicDataGrid.Columns>
+		</HaFT:BasicDataGrid>
+	</Grid>
 </Window>

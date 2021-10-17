@@ -7,6 +7,7 @@ namespace HaFT.Utilities.WPF.Test
 		public MainWindow()
 		{
 			InitializeComponent();
+			BDG.ItemsSource = new[] { "Hadi", "Kevin" };
 		}
 
 		private void b1_OnClick(object sender, RoutedEventArgs e)

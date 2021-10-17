@@ -17,11 +17,21 @@ namespace HaFT.Utilities.WPF
 
 			Loaded += (s, e) =>
 			{
-				var CenterStyle = (Style)FindResource("CenterStyle");
+				Style
+					rightStyle = (Style)FindResource("RightStyle"),
+					centerStyle = (Style)FindResource("CenterStyle");
 
-				foreach (DataGridColumn Col in Columns)
-					if (GetAlignment(Col) == HorizontalAlignment.Center)
-						Col.CellStyle = CenterStyle;
+				foreach (DataGridColumn col in Columns)
+					switch (GetAlignment(col))
+					{
+					case HorizontalAlignment.Right:
+						col.CellStyle = rightStyle;
+						break;
+
+					case HorizontalAlignment.Center:
+						col.CellStyle = centerStyle;
+						break;
+					}
 			};
 		}
 

@@ -32,6 +32,10 @@
 			<Setter Property="TextBlock.TextAlignment" Value="Center" />
 		</Style>
 
+		<Style x:Key="RightStyle" BasedOn="{StaticResource {x:Type DataGridCell}}" TargetType="DataGridCell">
+			<Setter Property="TextBlock.TextAlignment" Value="Right" />
+		</Style>
+
 		<Style TargetType="DataGridRow">
 			<Setter Property="Background" Value="White" />
 			<Setter Property="Foreground" Value="Black" />
