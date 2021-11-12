@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AssemblyName>HaFT.Utilities.SQLite</AssemblyName>
+		<RootNamespace>HaFT.Utilities.SQLite</RootNamespace>
+		<Authors>Hadi Fooladi Talari</Authors>
+		<Company>CNMC-SZI</Company>
+		<Version>1.0.1</Version>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+	</ItemGroup>
+
+</Project>
