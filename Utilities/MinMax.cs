@@ -44,12 +44,12 @@ namespace HaFT.Utilities
 		public float Length => Max - Min;
 		public float Center => (Max + Min) / 2;
 
-		public bool Contains(float Value) => Min <= Value && Value <= Max;
+		public bool Contains(float Value) => RealMin <= Value && Value <= RealMax;
 
 		public float Normalize(float Value) => (Value - Min) / Length;
 		public float Denormalize(float NormalizedValue) => NormalizedValue * Length + Min;
 
-		public float Clamp(float Value) => Value.Clamp(Min, Max);
+		public float Clamp(float Value) => Value.Clamp(RealMin, RealMax);
 		public float ClampedDenormalize(float NormalizedValue) { return Clamp(Denormalize(NormalizedValue)); }
 
 		/// <summary>
@@ -76,5 +76,8 @@ namespace HaFT.Utilities
 
 		public static MinMax operator +(MinMax MM1, MinMax MM2) => new MinMax(MM1.Min + MM2.Min, MM1.Max + MM2.Max);
 		#endregion
+
+		private float RealMin => Math.Min(Min, Max);
+		private float RealMax => Math.Max(Min, Max);
 	}
 }
