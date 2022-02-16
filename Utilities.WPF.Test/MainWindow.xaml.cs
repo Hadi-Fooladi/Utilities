@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Interop;
 
 namespace HaFT.Utilities.WPF.Test
 {
@@ -20,6 +21,18 @@ namespace HaFT.Utilities.WPF.Test
 		{
 			b1.isEnable = true;
 			b2.isEnable = false;
+		}
+
+		private void bShowPrompt_OnClick(object sender, RoutedEventArgs e)
+		{
+			var wnd = new PromptWindow
+			{
+				Title = "Title",
+				Message = "Message:"
+			};
+
+			if (wnd.ShowDialog() == true)
+				MessageBox.Show(wnd.Text);
 		}
 	}
 }
