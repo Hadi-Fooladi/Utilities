@@ -29,6 +29,13 @@ namespace HaFT.Utilities.SQLite
 			var code = ToInt(key);
 			return Table<KVP>().FirstOrDefault(p => p.Key == code);
 		}
+
+		private T? GenericRead<T>(TKey key, Func<string, T> parse) where T : struct
+		{
+			var pair = GetPair(key);
+			if (pair == null) return null;
+			return parse(pair.Value);
+		}
 		#endregion
 
 		#region Public Methods
@@ -76,22 +83,17 @@ namespace HaFT.Utilities.SQLite
 		/// <summary>
 		/// Returns null when key doesn't exist.
 		/// </summary>
-		public int? ReadInt32(TKey key)
-		{
-			var pair = GetPair(key);
-			if (pair == null) return null;
-			return int.Parse(pair.Value);
-		}
+		public int? ReadInt32(TKey key) => GenericRead(key, int.Parse);
 
 		/// <summary>
 		/// Returns null when key doesn't exist.
 		/// </summary>
-		public DateTime? ReadDateTime(TKey key)
-		{
-			var pair = GetPair(key);
-			if (pair == null) return null;
-			return DateTime.FromBinary(long.Parse(pair.Value));
-		}
+		public DateTime? ReadDateTime(TKey key) => GenericRead(key, s => DateTime.FromBinary(long.Parse(s)));
+
+		/// <summary>
+		/// Returns null when key doesn't exist.
+		/// </summary>
+		public bool? ReadBool(TKey key) => GenericRead(key, bool.Parse);
 		#endregion
 		#endregion
 	}

@@ -6,7 +6,7 @@
 		<RootNamespace>HaFT.Utilities.SQLite</RootNamespace>
 		<Authors>Hadi Fooladi Talari</Authors>
 		<Company>CNMC-SZI</Company>
-		<Version>1.0.1</Version>
+		<Version>1.1.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
