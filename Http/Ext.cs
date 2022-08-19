@@ -69,5 +69,12 @@ namespace HaFT.Utilities.Http
 
 			response.EnsureSuccessStatusCode();
 		}
+
+		public static async Task<List<T>> PostAndReturnListAsync<T>(this HttpClient client, string url, object content)
+		{
+			var response = await client.PostAndReturnAsync(url, content);
+
+			return JsonConvert.DeserializeObject<List<T>>(response);
+		}
 	}
 }
