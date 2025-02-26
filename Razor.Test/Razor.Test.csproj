@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<Version>1.0.1</Version>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<TargetFramework>net8.0</TargetFramework>
+
+		<Company>HaFT</Company>
+		<Authors>Hadi Fooladi Talari</Authors>
+
+		<AssemblyName>HaFT.Utilities.Razor.Test</AssemblyName>
+		<RootNamespace>HaFT.Utilities.Razor.Test</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!--<ProjectReference Include="..\Razor\Razor.csproj" />-->
+		<PackageReference Include="HaFT.Utilities.Razor" Version="1.0.1" />
+	</ItemGroup>
+
+</Project>
