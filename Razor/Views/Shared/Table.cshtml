@@ -1,0 +1,70 @@
+﻿@using System.Collections
+@using HaFT.Utilities.Razor.Models
+
+@model HaFT.Utilities.Razor.Models.Table
+
+<table class="table table-bordered table-striped table-hover m-0">
+
+	<thead class="thead-dark">
+	<tr>
+		@foreach (var col in Model.Columns)
+		{
+			var header = col.Header;
+			switch (col.Alignment)
+			{
+			case HorizontalAlignment.Left:
+				<th>@header</th>
+				break;
+
+			case HorizontalAlignment.Center:
+				<th class="text-center">@header</th>
+				break;
+
+			case HorizontalAlignment.Right:
+				<th class="text-end">@header</th>
+				break;
+			}
+		}
+	</tr>
+	</thead>
+
+	<tbody>
+	@foreach (var row in Model.Rows)
+	{
+		<tr>
+			@{
+				int ndx = 0;
+				foreach (var obj in row)
+				{
+					var col = Model.Columns[ndx++];
+					switch (col.Alignment)
+					{
+					case HorizontalAlignment.Left:
+						<td>@{ write(); }</td>
+						break;
+
+					case HorizontalAlignment.Center:
+						<td class="text-center">@{ write(); }</td>
+						break;
+
+					case HorizontalAlignment.Right:
+						<td class="text-end">@{ write(); }</td>
+						break;
+					}
+
+					void write()
+					{
+						if (obj is IEnumerable list)
+							foreach (var item in list)
+								toHTML(item);
+						else toHTML(obj!);
+
+						void toHTML(object cell) { @Html.Raw(cell) }
+					}
+				}
+			}
+		</tr>
+	}
+	</tbody>
+
+</table>
