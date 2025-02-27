@@ -31,7 +31,7 @@ public class IndexModel : PageModel
 		}
 	}
 
-	private static readonly IReadOnlyList<Column> s_columns =
+	static readonly IReadOnlyList<Column> s_columns =
 	[
 		Column.Center("#"),
 		Column.Center("ID"),
