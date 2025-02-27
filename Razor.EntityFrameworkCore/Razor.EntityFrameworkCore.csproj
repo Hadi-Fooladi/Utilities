@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<Version>1.0.1</Version>
+		<Nullable>enable</Nullable>
+		<TargetFramework>net8.0</TargetFramework>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+
+		<Company>HaFT</Company>
+		<Authors>Hadi Fooladi Talari</Authors>
+
+		<AssemblyName>HaFT.Utilities.Razor.EntityFrameworkCore</AssemblyName>
+		<RootNamespace>HaFT.Utilities.Razor.EntityFrameworkCore</RootNamespace>
+
+		<RepositoryUrl>https://github.com/Hadi-Fooladi/Utilities</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Hadi-Fooladi/Utilities</PackageProjectUrl>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+
+		<PackageReference Include="HaFT.Utilities.Razor" Version="1.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13" />
+	</ItemGroup>
+
+</Project>
