@@ -2,8 +2,16 @@
 @model PersonsModel
 @{ ViewData["Title"] = "Persons"; }
 
-<h1>123</h1>
-
 <form method="post">
-	<partial name="TableWithPagination" model="Model" />
+
+	<collapsible title="Filters">
+		<div class="row">
+			<input filter-name="First Name" asp-for="Filter.FirstName" />
+			<input filter-name="Last Name" asp-for="Filter.LastName" />
+			<div class="col-2"><button class="btn btn-primary w-100 filter-button" type="submit" asp-page-handler="">Apply</button></div>
+		</div>
+	</collapsible>
+
+	<partial name="TableWithPagination" model="Model"/>
+
 </form>
