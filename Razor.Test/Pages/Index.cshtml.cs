@@ -1,3 +1,4 @@
+using System.Collections;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HaFT.Utilities.Razor.Test.Pages;
@@ -12,11 +13,41 @@ public class IndexModel : PageModel
 
 	public void OnGet()
 	{
-		Table = Table.FromList(s_columns, Enumerable.Range(1, 3), toRow);
+		Table = new Table(s_columns, rows());
 
-		static IEnumerable<object> toRow(int num)
+		IEnumerable<Row> rows()
 		{
-			yield return num;
+			foreach (var num in Enumerable.Range(1, 20))
+				yield return new Row(num);
+		}
+	}
+
+	static readonly IReadOnlyList<Column> s_columns =
+	[
+		Column.Center("#"),
+		Column.Center("ID"),
+		Column.Left("First Name"),
+		Column.Right("Actions (HStack)"),
+		Column.Right("Actions (Array)")
+	];
+
+	class Row : ITableRow, IEnumerable<object>
+	{
+		readonly int _num;
+
+		public Row(int num)
+		{
+			_num = num;
+			Classes = num % 3 == 0 ? "bg-danger text-white" : null;
+		}
+
+		public string? Classes { get; }
+
+		IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
+
+		public IEnumerator<object> GetEnumerator()
+		{
+			yield return _num;
 			yield return "John";
 
 			object[] actions =
@@ -30,13 +61,4 @@ public class IndexModel : PageModel
 			yield return actions;
 		}
 	}
-
-	static readonly IReadOnlyList<Column> s_columns =
-	[
-		Column.Center("#"),
-		Column.Center("ID"),
-		Column.Left("First Name"),
-		Column.Right("Actions (HStack)"),
-		Column.Right("Actions (Array)")
-	];
 }

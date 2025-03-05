@@ -46,6 +46,11 @@ public class Table
 	#endregion
 }
 
+public interface ITableRow
+{
+	public string? Classes { get; }
+}
+
 public static class TableExt
 {
 	public static RowCollection GenerateRows<T>(

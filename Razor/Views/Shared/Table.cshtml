@@ -31,7 +31,9 @@
 	<tbody>
 	@foreach (var row in Model.Rows)
 	{
-		<tr>
+		var rowClasses = (row as ITableRow)?.Classes;
+
+		<tr class="align-middle @rowClasses">
 			@{
 				int ndx = 0;
 				foreach (var obj in row)
