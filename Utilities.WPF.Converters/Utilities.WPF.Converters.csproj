@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Version>1.0.1</Version>
+		<UseWPF>true</UseWPF>
+		<Nullable>enable</Nullable>
+		<TargetFramework>net8.0-windows</TargetFramework>
+
+		<AssemblyName>HaFT.Utilities.WPF.Converters</AssemblyName>
+		<RootNamespace>HaFT.Utilities.WPF.Converters</RootNamespace>
+		
+		<Company>HaFT</Company>
+		<Authors>Hadi Fooladi Talari</Authors>
+
+		<PackageTags>HaFT;Utility;WPF;Converter</PackageTags>
+	</PropertyGroup>
+
+</Project>
