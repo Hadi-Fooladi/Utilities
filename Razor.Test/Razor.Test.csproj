@@ -15,7 +15,7 @@
 
 	<ItemGroup>
 		<!--<ProjectReference Include="..\Razor\Razor.csproj" />-->
-		<PackageReference Include="HaFT.Utilities.Razor" Version="1.2.4" />
+		<PackageReference Include="HaFT.Utilities.Razor" Version="1.3.5" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.13" />
 
 		<!--<ProjectReference Include="..\Razor.EntityFrameworkCore\Razor.EntityFrameworkCore.csproj" />-->

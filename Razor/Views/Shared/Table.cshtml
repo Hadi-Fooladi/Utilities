@@ -7,17 +7,60 @@
 
 	<thead class="thead-dark">
 	<tr>
-		@foreach (var col in Model.Columns)
-		{
-			var header = col.Header;
-			var cls = col.Alignment switch
+		@{
+			var columnIndex = 0;
+			foreach (var col in Model.Columns)
 			{
-				HorizontalAlignment.Center => "text-center",
-				HorizontalAlignment.Right => "text-end",
-				_ => null
-			};
-			
-			<th class="@cls">@Html.Raw(header)</th>
+				var header = col.Header;
+				var cls = col.Alignment switch
+				{
+					HorizontalAlignment.Center => "text-center",
+					HorizontalAlignment.Right => "text-end",
+					_ => null
+				};
+
+				<th class="@cls">
+					@if (col.IsSortable)
+					{
+						<div style="display: flex">
+							<div style="flex: 1">@Html.Raw(header)</div>
+							
+							@{
+								string html;
+								string? callback;
+								if (Model.SortedColumn == col)
+								{
+									if (Model.SortDirection == SortDirection.Ascending)
+									{
+										html = Model.SortUpHtml;
+										callback = Model.SortDownCallBack;
+									}
+									else
+									{
+										html = Model.SortDownHtml;
+										callback = Model.ClearSortCallBack;
+									}
+								}
+								else
+								{
+									html = Model.SortHtml;
+									callback = Model.SortUpCallBack;
+								}
+
+								var onclick = callback == null ? null : $"{callback}({columnIndex})";
+							}
+
+							<div style="width: 0.8em; cursor: pointer" onclick="@onclick">@Html.Raw(html)</div>
+						</div>
+					}
+					else
+					{
+						@Html.Raw(header)
+					}
+				</th>
+
+				columnIndex++;
+			}
 		}
 	</tr>
 	</thead>

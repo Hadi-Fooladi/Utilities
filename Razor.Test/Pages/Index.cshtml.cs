@@ -15,6 +15,9 @@ public class IndexModel : PageModel
 	{
 		Table = new Table(s_columns, rows());
 
+		Table.SortedColumn = Table.Columns[2];
+		Table.SortDirection = SortDirection.Descending;
+
 		IEnumerable<Row> rows()
 		{
 			foreach (var num in Enumerable.Range(1, 20))
@@ -25,9 +28,9 @@ public class IndexModel : PageModel
 	static readonly IReadOnlyList<Column> s_columns =
 	[
 		Column.Center("#"),
-		Column.Left("<i>First Name</i>"),
-		Column.Right("Actions (HStack)"),
-		Column.Right("Actions (Array)")
+		Column.Center("<i>First Name</i>").Sortable(),
+		Column.Right("Actions (HStack)").Sortable(),
+		Column.Right("Actions (Array)").Sortable()
 	];
 
 	class Row : ITableRow, IEnumerable<object>
