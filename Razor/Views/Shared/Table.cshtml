@@ -10,20 +10,14 @@
 		@foreach (var col in Model.Columns)
 		{
 			var header = col.Header;
-			switch (col.Alignment)
+			var cls = col.Alignment switch
 			{
-			case HorizontalAlignment.Left:
-				<th>@header</th>
-				break;
-
-			case HorizontalAlignment.Center:
-				<th class="text-center">@header</th>
-				break;
-
-			case HorizontalAlignment.Right:
-				<th class="text-end">@header</th>
-				break;
-			}
+				HorizontalAlignment.Center => "text-center",
+				HorizontalAlignment.Right => "text-end",
+				_ => null
+			};
+			
+			<th class="@cls">@Html.Raw(header)</th>
 		}
 	</tr>
 	</thead>

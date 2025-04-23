@@ -25,8 +25,7 @@ public class IndexModel : PageModel
 	static readonly IReadOnlyList<Column> s_columns =
 	[
 		Column.Center("#"),
-		Column.Center("ID"),
-		Column.Left("First Name"),
+		Column.Left("<i>First Name</i>"),
 		Column.Right("Actions (HStack)"),
 		Column.Right("Actions (Array)")
 	];
