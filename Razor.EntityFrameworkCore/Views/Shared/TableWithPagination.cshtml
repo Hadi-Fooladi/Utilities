@@ -1,18 +1,23 @@
 ﻿@model HaFT.Utilities.Razor.EntityFrameworkCore.Pages.TablePageModel
 
 @{
+	var uid = $"div_{Guid.NewGuid():N}";
+
+	<input asp-for="SortByColumnIndex" />
+	<input asp-for="SortDirection" />
+
 	await write("align-items-end");
 
-	<div class="row">
+	<div id="@uid" class="row">
 		<partial name="Table" model="Model.Table"/>
 	</div>
-	
+
 	await write("align-items-start");
 
 	async Task write(string alignment)
 	{
 		<div class="row my-1">
-			<div class="col-9 d-flex @alignment p-0">@Model.Statistics - @Model.FilterText [@Model.SortText]</div>
+			<div class="col-9 d-flex @alignment p-0">@Model.Statistics - @Model.FilterText</div>
 			<div class="col-3 d-flex justify-content-end p-0">
 				<nav>
 					<ul class="pagination m-0">
@@ -24,3 +29,34 @@
 		</div>
 	}
 }
+<script>
+	function sortUp(ndx) {
+		$("#SortByColumnIndex").val(ndx);
+		$("#SortDirection").val("Ascending");
+		submitForm();
+	}
+
+	function sortDown(ndx) {
+		$("#SortByColumnIndex").val(ndx);
+		$("#SortDirection").val("Descending");
+		submitForm();
+	}
+
+	function clearSort(ndx) {
+		$("#SortByColumnIndex").val(-1);
+		submitForm();
+	}
+
+	function submitForm() {
+		const form =
+		@if (Model.FormId == null)
+		{
+			@: $("#@uid").closest("form");
+		}
+		else
+		{
+			@: $("#@Model.FormId");
+		}
+		form.submit();
+	}
+</script>

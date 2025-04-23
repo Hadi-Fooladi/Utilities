@@ -1,4 +1,6 @@
-﻿using System;
+﻿global using RowCollection = System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<object?>>;
+
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -11,9 +13,10 @@ using Models;
 
 public class TablePageModel : PageModel
 {
+	public required IReadOnlyList<Table.Column> Columns { get; init; }
+
 	public Table Table { get; protected set; } = null!;
 
-	public string SortText { get; protected set; } = "Not sorted";
 	public string FilterText { get; protected set; } = "No filters";
 	public string Statistics { get; protected set; } = null!;
 
@@ -25,8 +28,11 @@ public class TablePageModel : PageModel
 	[TempData(Key = "F1692046-9ED5-4160-96F7-A349EA1A8AB0")]
 	public int PageNumber { get; set; } = 1;
 
-	[BindProperty]
-	public string? SortBy { get; set; }
+	[BindProperty(SupportsGet = true), HiddenInput]
+	public int SortByColumnIndex { get; set; } = -1;
+
+	[BindProperty(SupportsGet = true), HiddenInput]
+	public SortDirection SortDirection { get; set; }
 
 	public string? FormId { get; set; }
 }
@@ -38,7 +44,7 @@ public abstract class TablePageModel<TEntity> : TablePageModel
 	protected abstract IQueryable<TEntity> Query { get; }
 	protected abstract void ApplySort(ref IQueryable<TEntity> query);
 	protected abstract void ApplyFilters(ref IQueryable<TEntity> query, out IEnumerable<string>? filterTexts);
-	protected abstract Table GetTable(IQueryable<TEntity> query, int startingNum);
+	protected abstract RowCollection GetRows(IQueryable<TEntity> query, int startingNum);
 
 	void Run() { Run(Query); }
 	void Run(IQueryable<TEntity> query)
@@ -54,13 +60,20 @@ public abstract class TablePageModel<TEntity> : TablePageModel
 		Statistics = $"{count} row{(count == 1 ? "" : "s")} - Page {PageNumber} of {pageCount}";
 
 		ApplySort(ref query);
-		if (!string.IsNullOrWhiteSpace(SortBy)) SortText = $"Sorted by {SortBy}";
 
 		query = query
 			.Skip(skipCount)
 			.Take(RowsPerPage);
 
-		Table = GetTable(query, skipCount + 1);
+		var table = new Table(Columns, GetRows(query, skipCount + 1))
+		{
+			SortDirection = SortDirection,
+			SortedColumn = SortByColumnIndex >= 0 ? Columns[SortByColumnIndex] : null,
+			SortUpCallBack = "sortUp",
+			SortDownCallBack = "sortDown",
+			ClearSortCallBack = "clearSort"
+		};
+		Table = table;
 
 		IsPrevEnabled = PageNumber > 1;
 		IsNextEnabled = PageNumber < pageCount;

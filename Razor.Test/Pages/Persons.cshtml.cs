@@ -40,21 +40,38 @@ public class PersonsModel : TablePageModel<Person>
 	static readonly IReadOnlyList<Column> s_columns =
 	[
 		Column.Center("#"),
-		Column.Left("First Name"),
-		Column.Left("Last Name")
+		Column.Left("First Name").Sortable(),
+		Column.Left("Last Name").Sortable()
 	];
 	#endregion
 
 	public PersonsModel()
 	{
 		RowsPerPage = 10;
+		Columns = s_columns;
 	}
 
 	[BindProperty]
 	public FilterType? Filter { get; set; }
 
 	protected override IQueryable<Person> Query => _db.Persons;
-	protected override void ApplySort(ref IQueryable<Person> query) { }
+
+	protected override void ApplySort(ref IQueryable<Person> query)
+	{
+		switch (SortByColumnIndex)
+		{
+		case 1:
+			query = SortDirection == SortDirection.Ascending
+				? query.OrderBy(p => p.FirstName)
+				: query.OrderByDescending(p => p.FirstName);
+			break;
+		case 2:
+			query = SortDirection == SortDirection.Ascending
+				? query.OrderBy(p => p.LastName)
+				: query.OrderByDescending(p => p.LastName);
+			break;
+		}
+	}
 
 	protected override void ApplyFilters(ref IQueryable<Person> query, out IEnumerable<string>? filterTexts)
 	{
@@ -68,9 +85,9 @@ public class PersonsModel : TablePageModel<Person>
 		filterTexts = list;
 	}
 
-	protected override Table GetTable(IQueryable<Person> query, int startingNum)
+	protected override IEnumerable<IEnumerable<object?>> GetRows(IQueryable<Person> query, int startingNum)
 	{
-		return Table.FromList(s_columns, query, toRow!);
+		return query.AsEnumerable().GenerateRows(toRow!, startingNum);
 
 		static IEnumerable<object?> toRow(Person p)
 		{
