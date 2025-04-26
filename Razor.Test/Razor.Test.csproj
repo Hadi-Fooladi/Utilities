@@ -19,7 +19,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.13" />
 
 		<!--<ProjectReference Include="..\Razor.EntityFrameworkCore\Razor.EntityFrameworkCore.csproj" />-->
-		<PackageReference Include="HaFT.Utilities.Razor.EntityFrameworkCore" Version="1.0.1" />
+		<PackageReference Include="HaFT.Utilities.Razor.EntityFrameworkCore" Version="2.0.3" />
 	</ItemGroup>
 
 </Project>
