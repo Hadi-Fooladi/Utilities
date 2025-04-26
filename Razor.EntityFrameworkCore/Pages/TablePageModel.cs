@@ -49,6 +49,8 @@ public abstract class TablePageModel<TEntity> : TablePageModel
 	void Run() { Run(Query); }
 	void Run(IQueryable<TEntity> query)
 	{
+		const string JS_OBJECT = "HaFT.Razor.EntityFrameworkCore.TableWithPagination";
+
 		ApplyFilters(ref query, out var filterTexts);
 		if (filterTexts != null) FilterText = $"Filters: {string.Join(", ", filterTexts)}";
 
@@ -69,9 +71,9 @@ public abstract class TablePageModel<TEntity> : TablePageModel
 		{
 			SortDirection = SortDirection,
 			SortedColumn = SortByColumnIndex >= 0 ? Columns[SortByColumnIndex] : null,
-			SortUpCallBack = "sortUp",
-			SortDownCallBack = "sortDown",
-			ClearSortCallBack = "clearSort"
+			SortUpCallBack = $"{JS_OBJECT}.sortUp",
+			SortDownCallBack = $"{JS_OBJECT}.sortDown",
+			ClearSortCallBack = $"{JS_OBJECT}.clearSort"
 		};
 		Table = table;
 

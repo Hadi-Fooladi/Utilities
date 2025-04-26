@@ -30,33 +30,39 @@
 	}
 }
 <script>
-	function sortUp(ndx) {
-		$("#SortByColumnIndex").val(ndx);
-		$("#SortDirection").val("Ascending");
-		submitForm();
-	}
+	var HaFT = HaFT || {};
+	HaFT.Razor = HaFT.Razor || {};
+	HaFT.Razor.EntityFrameworkCore = HaFT.Razor.EntityFrameworkCore || {};
 
-	function sortDown(ndx) {
-		$("#SortByColumnIndex").val(ndx);
-		$("#SortDirection").val("Descending");
-		submitForm();
-	}
+	HaFT.Razor.EntityFrameworkCore.TableWithPagination = {
+		sortUp: function(ndx) {
+			$("#SortByColumnIndex").val(ndx);
+			$("#SortDirection").val("Ascending");
+			this.submitForm();
+		},
 
-	function clearSort(ndx) {
-		$("#SortByColumnIndex").val(-1);
-		submitForm();
-	}
+		sortDown: function(ndx) {
+			$("#SortByColumnIndex").val(ndx);
+			$("#SortDirection").val("Descending");
+			this.submitForm();
+		},
 
-	function submitForm() {
-		const form =
-		@if (Model.FormId == null)
-		{
-			@: $("#@uid").closest("form");
+		clearSort: function() {
+			$("#SortByColumnIndex").val(-1);
+			this.submitForm();
+		},
+
+		submitForm: function() {
+			const form =
+			@if (Model.FormId == null)
+			{
+				@: $("#@uid").closest("form");
+			}
+			else
+			{
+				@: $("#@Model.FormId");
+			}
+			form.submit();
 		}
-		else
-		{
-			@: $("#@Model.FormId");
-		}
-		form.submit();
-	}
+	};
 </script>
