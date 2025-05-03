@@ -13,19 +13,19 @@ public class Form : Element
 
 	public string? Action
 	{
-		get => GetAttribute("action");
-		set => SetAttribute("action", value);
+		get => Attributes["action"];
+		set => Attributes["action"] = value;
 	}
 
 	public string? Method
 	{
-		get => GetAttribute("method");
-		set => SetAttribute("method", value);
+		get => Attributes["method"];
+		set => Attributes["method"] = value;
 	}
 
 	public string? OnSubmit
 	{
-		get => GetAttribute("onsubmit");
-		set => SetAttribute("onsubmit", value);
+		get => Attributes["onsubmit"];
+		set => Attributes["onsubmit"] = value;
 	}
 }

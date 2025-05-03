@@ -13,21 +13,21 @@ public class ButtonLink : Element
 	{
 		Href = href;
 		Text = text;
-		Classes = classes;
+		Attributes.Classes = classes;
 	}
 
 	public string? Href
 	{
-		get => GetAttribute("href");
-		set => SetAttribute("href", value);
+		get => Attributes["href"];
+		set => Attributes["href"] = value;
 	}
 
 	public string Text { set => Children = [value]; }
 
 	public string? Target
 	{
-		get => GetAttribute("target");
-		set => SetAttribute("target", value);
+		get => Attributes["target"];
+		set => Attributes["target"] = value;
 	}
 
 	public static ButtonLink Info(string href, string text) => new(href, text, "btn btn-outline-info");

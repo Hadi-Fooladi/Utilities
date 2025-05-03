@@ -8,6 +8,6 @@ public class HStack : Element
 	public HStack()
 	{
 		Tag = "div";
-		Classes = "hstack gap-1 justify-content-center";
+		Attributes.Classes = "hstack gap-1 justify-content-center";
 	}
 }

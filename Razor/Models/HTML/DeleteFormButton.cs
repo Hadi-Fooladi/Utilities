@@ -16,7 +16,7 @@ public class DeleteFormButton : Form
 			OnSubmit = "return confirm(\"Are you sure to delete?\")";
 
 		if (options.OpenInNewTab)
-			SetAttribute("target", "_blank");
+			Attributes["target"] = "_blank";
 	}
 
 	static readonly Options s_defaultOptions = new();
