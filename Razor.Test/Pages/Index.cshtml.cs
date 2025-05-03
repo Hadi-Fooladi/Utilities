@@ -50,7 +50,15 @@ public class IndexModel : PageModel
 		public IEnumerator<object> GetEnumerator()
 		{
 			yield return _num;
-			yield return "John";
+
+			var element = new Element
+				{
+					Tag = "span",
+					Children = ["John Doe"],
+					Attributes = { Base = L3 }
+				}
+				.WithAttribute("ghi", "4");
+			yield return element;
 
 			object[] actions =
 			[
@@ -62,5 +70,10 @@ public class IndexModel : PageModel
 			yield return new HStack { Children = actions };
 			yield return actions;
 		}
+
+		static readonly AttributeCollection
+			ROOT = new AttributeCollection().With("abc", "Root"),
+			L2 = new AttributeCollection { Base = ROOT }.With("Abc", "L2"),
+			L3 = new AttributeCollection { Base = L2 }.With("def", "L3");
 	}
 }
