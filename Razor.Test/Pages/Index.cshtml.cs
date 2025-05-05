@@ -57,7 +57,12 @@ public class IndexModel : PageModel
 					Children = ["John Doe"],
 					Attributes = { Base = L3 }
 				}
-				.WithAttribute("ghi", "4");
+				.WithAttribute("ghi", "4")
+				.WithAttribute("unary", SpecialValue.Empty);
+			element.Attributes.Style = new StyleBuilder { Base = SB_L2 }
+				.Add("color", "navy")
+				.Discard("font-size");
+			element.Attributes.Classes = new ClassBuilder().Add("bg-primary", "h1").Remove("bg-primary");
 			yield return element;
 
 			object[] actions =
@@ -75,5 +80,9 @@ public class IndexModel : PageModel
 			ROOT = new AttributeCollection().With("abc", "Root"),
 			L2 = new AttributeCollection { Base = ROOT }.With("Abc", "L2"),
 			L3 = new AttributeCollection { Base = L2 }.With("def", "L3");
+
+		static readonly StyleBuilder
+			SB_ROOT = new StyleBuilder().Add("color", "blue"),
+			SB_L2 = new StyleBuilder { Base = SB_ROOT }.Add("font-size", "150%").Discard("color");
 	}
 }
