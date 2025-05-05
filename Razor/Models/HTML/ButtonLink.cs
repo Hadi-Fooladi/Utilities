@@ -18,7 +18,7 @@ public class ButtonLink : Element
 
 	public string? Href
 	{
-		get => Attributes["href"];
+		get => Attributes.GetString("href");
 		set => Attributes["href"] = value;
 	}
 
@@ -26,7 +26,7 @@ public class ButtonLink : Element
 
 	public string? Target
 	{
-		get => Attributes["target"];
+		get => Attributes.GetString("target");
 		set => Attributes["target"] = value;
 	}
 

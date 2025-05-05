@@ -16,7 +16,7 @@ public class Element
 
 public static class ElementExt
 {
-	public static T WithAttribute<T>(this T element, string name, string? value) where T : Element
+	public static T WithAttribute<T>(this T element, string name, object? value) where T : Element
 	{
 		element.Attributes[name] = value;
 		return element;
