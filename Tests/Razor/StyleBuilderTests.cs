@@ -60,6 +60,24 @@ public class StyleBuilderTests
 		Assert.Equal("font-size:12", builder.ToString());
 	}
 
+	[Fact]
+	public void DiscardThenReintroduce()
+	{
+		var @base = new StyleBuilder { Base = s_base }
+			.Discard("color");
+
+		Assert.Equal(12, @base["font-size"]);
+
+		var builder = new StyleBuilder { Base = @base }
+			.Discard("font-size")
+			.Add("color", "navy");
+
+		Assert.Equal("navy", builder["color"]);
+		Assert.Equal(SpecialValue.Discard, builder["font-size"]);
+
+		Assert.Equal("color:navy", builder.ToString());
+	}
+
 	static readonly StyleBuilder s_base = new StyleBuilder()
 		.Add("color", "red")
 		.Add("font-size", 12);
