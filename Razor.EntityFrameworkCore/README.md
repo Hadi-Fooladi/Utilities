@@ -2,7 +2,7 @@
 
 Version: 2.0.5
 
-![NuGet Version](https://img.shields.io/nuget/v/HaFT.Utilities.Razor.EntityFrameworkCore)
+[![NuGet Version](https://img.shields.io/nuget/v/HaFT.Utilities.Razor.EntityFrameworkCore)](https://www.nuget.org/packages/HaFT.Utilities.Razor.EntityFrameworkCore)
 
 
 ## Dependencies
