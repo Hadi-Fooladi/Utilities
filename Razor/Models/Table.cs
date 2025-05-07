@@ -1,4 +1,4 @@
-﻿global using RowCollection = System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<object>>;
+﻿global using RowCollection = System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<object?>>;
 
 using System;
 using System.Collections.Generic;
@@ -78,7 +78,7 @@ public static class TableExt
 {
 	public static RowCollection GenerateRows<T>(
 		this IEnumerable<T> list,
-		Func<T, IEnumerable<object>> values,
+		Func<T, IEnumerable<object?>> values,
 		int startingNum = 1)
 	{
 		return rows();
@@ -90,7 +90,7 @@ public static class TableExt
 			{
 				yield return row();
 
-				IEnumerable<object> row()
+				IEnumerable<object?> row()
 				{
 					yield return num++;
 					foreach (var value in values(item))
