@@ -1,0 +1,64 @@
+﻿@model HaFT.Utilities.Razor.EntityFrameworkCore.Pages.AutoAppendTablePageModel
+
+@{
+	var uid = $"div_{Guid.NewGuid():N}";
+
+	<input asp-for="SortByColumnIndex" />
+	<input asp-for="SortDirection" />
+
+	write();
+
+	<div id="@uid" class="row">
+		<partial name="Table" model="Model.Table"/>
+	</div>
+
+	write();
+
+	<div hx-get="?handler=Test" hx-include="closest form">
+		This is a test
+	</div>
+
+	void write()
+	{
+		<div class="row my-1">
+			@Model.Statistics - @Model.FilterText
+		</div>
+	}
+}
+<script>
+	var HaFT = HaFT || {};
+	HaFT.Razor = HaFT.Razor || {};
+	HaFT.Razor.EntityFrameworkCore = HaFT.Razor.EntityFrameworkCore || {};
+
+	HaFT.Razor.EntityFrameworkCore.TableWithPagination = {
+		sortUp: function(ndx) {
+			$("#SortByColumnIndex").val(ndx);
+			$("#SortDirection").val("Ascending");
+			this.submitForm();
+		},
+
+		sortDown: function(ndx) {
+			$("#SortByColumnIndex").val(ndx);
+			$("#SortDirection").val("Descending");
+			this.submitForm();
+		},
+
+		clearSort: function() {
+			$("#SortByColumnIndex").val(-1);
+			this.submitForm();
+		},
+
+		submitForm: function() {
+			const form =
+				@if (Model.FormId == null)
+				{
+					@: $("#@uid").closest("form");
+			}
+			else
+			{
+				@: $("#@Model.FormId");
+			}
+			form.submit();
+		}
+	};
+</script>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<Version>2.0.5</Version>
+		<Version>2.1.6</Version>
 		<Nullable>enable</Nullable>
 		<TargetFramework>net8.0</TargetFramework>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
@@ -20,7 +20,7 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 
 		<!--<ProjectReference Include="..\Razor\Razor.csproj" />-->
-		<PackageReference Include="HaFT.Utilities.Razor" Version="3.0.7" />
+		<PackageReference Include="HaFT.Utilities.Razor" Version="3.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13" />
 	</ItemGroup>
 

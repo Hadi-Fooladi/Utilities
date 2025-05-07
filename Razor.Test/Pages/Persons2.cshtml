@@ -1,0 +1,17 @@
+﻿@page
+@model Persons2Model
+@{ ViewData["Title"] = "Persons"; }
+
+<form method="post" asp-page="Persons2">
+
+	<collapsible title="Filters">
+		<div class="row">
+			<input filter-name="First Name" asp-for="Filter.FirstName" />
+			<input filter-name="Last Name" asp-for="Filter.LastName" />
+			<div class="col-2"><button class="btn btn-primary w-100 filter-button" type="submit" asp-page-handler="">Apply</button></div>
+		</div>
+	</collapsible>
+
+	<partial name="AutoAppendTable" model="Model"/>
+
+</form>

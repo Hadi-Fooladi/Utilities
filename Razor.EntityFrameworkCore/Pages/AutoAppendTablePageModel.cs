@@ -8,7 +8,7 @@ namespace HaFT.Utilities.Razor.EntityFrameworkCore.Pages;
 
 using Models;
 
-public class TablePageModel : BaseTablePageModel
+public class AutoAppendTablePageModel : BaseTablePageModel
 {
 	public bool IsPrevEnabled { get; protected set; }
 	public bool IsNextEnabled { get; protected set; }
@@ -17,7 +17,7 @@ public class TablePageModel : BaseTablePageModel
 	public int PageNumber { get; set; } = 1;
 }
 
-public abstract class TablePageModel<TEntity> : TablePageModel
+public abstract class AutoAppendTablePageModel<TEntity> : AutoAppendTablePageModel
 {
 	public int RowsPerPage { get; set; } = 100;
 
@@ -65,6 +65,13 @@ public abstract class TablePageModel<TEntity> : TablePageModel
 	{
 		PageNumber = 1;
 		Run();
+	}
+
+	static int _counter;
+
+	public IActionResult OnGetTest()
+	{
+		return Content($"From Test!!! {_counter++} {SortByColumnIndex}");
 	}
 
 	public void OnPost()
