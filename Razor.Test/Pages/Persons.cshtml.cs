@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 using HaFT.Utilities.Razor.EntityFrameworkCore.Pages;
 
@@ -12,30 +11,7 @@ using Column = Models.Table.Column;
 public class PersonsModel : TablePageModel<Person>
 {
 	#region Static
-	static PersonsModel()
-	{
-		var options = new DbContextOptionsBuilder<Database>()
-			.UseInMemoryDatabase("DB")
-			.Options;
-
-		_db = new Database(options);
-
-		_db.Database.EnsureDeleted();
-		_db.Database.EnsureCreated();
-
-		_db.AddRange(p("John", "Doe"), p("Jane", "Doe"));
-
-		_db.AddRange(
-			Enumerable.Range(1, 100)
-				.Select(_ => p(guid(), guid())));
-
-		_db.SaveChanges();
-
-		static string guid() => Guid.NewGuid().ToString();
-		static Person p(string fn, string ln) => new() { FirstName = fn, LastName = ln };
-	}
-
-	static readonly Database _db;
+	static readonly Database _db = Database.Instance;
 
 	static readonly IReadOnlyList<Column> s_columns =
 	[
@@ -87,7 +63,7 @@ public class PersonsModel : TablePageModel<Person>
 
 	protected override IEnumerable<IEnumerable<object?>> GetRows(IQueryable<Person> query, int startingNum)
 	{
-		return query.AsEnumerable().GenerateRows(toRow!, startingNum);
+		return query.AsEnumerable().GenerateRows(toRow, startingNum);
 
 		static IEnumerable<object?> toRow(Person p)
 		{
