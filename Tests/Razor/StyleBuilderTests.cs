@@ -41,16 +41,26 @@ public class StyleBuilderTests
 	[Fact]
 	public void Base()
 	{
-		var builder = new StyleBuilder
-			{
-				Base = new StyleBuilder()
-					.Add("color", "red")
-					.Add("font-size", 12)
-			}
+		var builder = new StyleBuilder { Base = s_base }
 			.Add("font-size", 14);
 		
 		Assert.Equal("red", builder["color"]);
 		Assert.Equal(14, builder["font-size"]);
 		Assert.Equal("color:red;font-size:14", builder.ToString());
 	}
+
+	[Fact]
+	public void Discard()
+	{
+		var builder = new StyleBuilder { Base = s_base }
+			.Discard("color");
+
+		Assert.Equal(SpecialValue.Discard, builder["color"]);
+		Assert.Equal(12, builder["font-size"]);
+		Assert.Equal("font-size:12", builder.ToString());
+	}
+
+	static readonly StyleBuilder s_base = new StyleBuilder()
+		.Add("color", "red")
+		.Add("font-size", 12);
 }
