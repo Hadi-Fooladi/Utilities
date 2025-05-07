@@ -78,6 +78,16 @@ public class StyleBuilderTests
 		Assert.Equal("color:navy", builder.ToString());
 	}
 
+	[Fact]
+	public void CaseSensitivity()
+	{
+		var builder = new StyleBuilder { Base = s_base }
+			.Add("Color", "blue");
+
+		Assert.Equal("blue", builder["COLOR"]);
+		Assert.Equal("color:blue;font-size:12", builder.ToString());
+	}
+
 	static readonly StyleBuilder s_base = new StyleBuilder()
 		.Add("color", "red")
 		.Add("font-size", 12);
