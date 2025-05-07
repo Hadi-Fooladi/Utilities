@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Razor.EntityFrameworkCore",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities.WPF.Converters", "Utilities.WPF.Converters\Utilities.WPF.Converters.csproj", "{892FFE0C-98FF-476C-B7AE-F4FBE84C643D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Razor", "Tests\Razor\Razor.csproj", "{42E307DE-5D46-4B95-A814-FF40D53CB08E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,9 +73,16 @@ Global
 		{892FFE0C-98FF-476C-B7AE-F4FBE84C643D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{892FFE0C-98FF-476C-B7AE-F4FBE84C643D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{892FFE0C-98FF-476C-B7AE-F4FBE84C643D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42E307DE-5D46-4B95-A814-FF40D53CB08E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42E307DE-5D46-4B95-A814-FF40D53CB08E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42E307DE-5D46-4B95-A814-FF40D53CB08E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42E307DE-5D46-4B95-A814-FF40D53CB08E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{42E307DE-5D46-4B95-A814-FF40D53CB08E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D60DD37B-B3F1-4400-A8A3-61A350D31614}
