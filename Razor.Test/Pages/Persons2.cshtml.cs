@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 
 using HaFT.Utilities.Razor.EntityFrameworkCore.Pages;
@@ -70,6 +71,17 @@ public class Persons2Model : AutoAppendTablePageModel<Person>
 			yield return p.FirstName;
 			yield return p.LastName;
 		}
+	}
+
+	protected override string SerializeFilters() => JsonSerializer.Serialize(Filter);
+
+	protected override void DeserializeFilters(string? value)
+	{
+		Filter = null;
+		if (string.IsNullOrWhiteSpace(value)) return;
+
+		try { Filter = JsonSerializer.Deserialize<FilterType>(value); }
+		catch { }
 	}
 
 	public class FilterType
