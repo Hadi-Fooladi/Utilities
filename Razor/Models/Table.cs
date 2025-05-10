@@ -34,6 +34,8 @@ public class Table
 	public string? SortDownCallBack { get; set; } /*= "(function(ndx) { alert('Sort Down' + ndx) })";*/
 	public string? ClearSortCallBack { get; set; } /*= "(function(ndx) { alert('Clear Sort' + ndx) })";*/
 
+	public string? AfterRowsHtml { get; set; }
+
 	#region Nested Classes
 	public class Column
 	{
