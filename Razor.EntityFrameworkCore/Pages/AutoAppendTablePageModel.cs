@@ -7,14 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 namespace HaFT.Utilities.Razor.EntityFrameworkCore.Pages;
 
 using Models;
+using Models.HTML;
 
 public class AutoAppendTablePageModel : BaseTablePageModel
 {
-	public bool IsPrevEnabled { get; protected set; }
-	public bool IsNextEnabled { get; protected set; }
+	[BindProperty(SupportsGet = true), HiddenInput]
+	public int OriginalSortByColumnIndex { get; set; }
 
-	[TempData(Key = "F1692046-9ED5-4160-96F7-A349EA1A8AB0")]
-	public int PageNumber { get; set; } = 1;
+	[BindProperty(SupportsGet = true), HiddenInput]
+	public SortDirection OriginalSortDirection { get; set; }
+
+	[BindProperty(SupportsGet = true), HiddenInput]
+	public string? Filters { get; set; }
 }
 
 public abstract class AutoAppendTablePageModel<TEntity> : AutoAppendTablePageModel
@@ -26,6 +30,16 @@ public abstract class AutoAppendTablePageModel<TEntity> : AutoAppendTablePageMod
 	protected abstract void ApplyFilters(ref IQueryable<TEntity> query, out IEnumerable<string>? filterTexts);
 	protected abstract RowCollection GetRows(IQueryable<TEntity> query, int startingNum);
 
+	/// <summary>
+	/// Used to store filters
+	/// </summary>
+	protected abstract string? SerializeFilters();
+
+	/// <summary>
+	/// Used to restore filters
+	/// </summary>
+	protected abstract void DeserializeFilters(string? value);
+
 	void Run() { Run(Query); }
 	void Run(IQueryable<TEntity> query)
 	{
@@ -36,59 +50,81 @@ public abstract class AutoAppendTablePageModel<TEntity> : AutoAppendTablePageMod
 
 		int
 			count = query.Count(),
-			pageCount = (int)Math.Ceiling(count / (double)RowsPerPage),
-			skipCount = (PageNumber - 1) * RowsPerPage;
+			pageCount = (int)Math.Ceiling(count / (double)RowsPerPage);
 
-		Statistics = $"{count} row{(count == 1 ? "" : "s")} - Page {PageNumber} of {pageCount}";
+		Statistics = $"{count} row{(count == 1 ? "" : "s")}";
 
 		ApplySort(ref query);
 
-		query = query
-			.Skip(skipCount)
-			.Take(RowsPerPage);
+		query = query.Take(RowsPerPage);
 
-		var table = new Table(Columns, GetRows(query, skipCount + 1))
+		var table = new Table(Columns, GetRows(query, 1))
 		{
 			SortDirection = SortDirection,
 			SortedColumn = SortByColumnIndex >= 0 ? Columns[SortByColumnIndex] : null,
 			SortUpCallBack = $"{JS_OBJECT}.sortUp",
 			SortDownCallBack = $"{JS_OBJECT}.sortDown",
-			ClearSortCallBack = $"{JS_OBJECT}.clearSort"
+			ClearSortCallBack = $"{JS_OBJECT}.clearSort",
+			AfterRowsHtml = pageCount > 1 ? GetLoadMoreRowHtml(2) : null
 		};
 		Table = table;
 
-		IsPrevEnabled = PageNumber > 1;
-		IsNextEnabled = PageNumber < pageCount;
+		ModelState.Remove(nameof(Filters));
+		ModelState.Remove(nameof(OriginalSortDirection));
+		ModelState.Remove(nameof(OriginalSortByColumnIndex));
+
+		Filters = SerializeFilters();
+		OriginalSortDirection = SortDirection;
+		OriginalSortByColumnIndex = SortByColumnIndex;
 	}
 
-	public void OnGet()
+	public void OnGet() { Run(); }
+
+	public void OnPost() { Run(); }
+
+	public IActionResult OnGetLoadMore([FromQuery] int page, [FromQuery] int rowsPerPage)
 	{
-		PageNumber = 1;
-		Run();
+		DeserializeFilters(Filters);
+
+		var query = Query;
+		ApplyFilters(ref query, out _);
+
+		int
+			count = query.Count(),
+			pageCount = (int)Math.Ceiling(count / (double)rowsPerPage),
+			skipCount = (page - 1) * rowsPerPage;
+
+		ApplySort(ref query);
+
+		query = query
+			.Skip(skipCount)
+			.Take(rowsPerPage);
+
+		var table = new Table(Columns, GetRows(query, skipCount + 1))
+		{
+			AfterRowsHtml = page < pageCount ? GetLoadMoreRowHtml(page + 1) : null
+		};
+
+		return Partial("TableRows", table);
 	}
 
-	static int _counter;
-
-	public IActionResult OnGetTest()
+	string GetLoadMoreRowHtml(int page)
 	{
-		return Content($"From Test!!! {_counter++} {SortByColumnIndex}");
-	}
+		var uid = $"tr_{Guid.NewGuid():N}";
+		var element = new Element
+		{
+			Tag = "button",
+			Children = ["Load more..."],
+			Attributes = new()
+			{
+				["class"] = "btn btn-primary btn-light",
+				["hx-get"] = $"?handler=LoadMore&page={page}&rowsPerPage={RowsPerPage}",
+				["hx-swap"] = "outerHTML",
+				["hx-target"] = $"#{uid}",
+				["hx-include"] = FormId == null ? "closest form" : $"#{FormId}"
+			}
+		};
 
-	public void OnPost()
-	{
-		PageNumber = 1;
-		Run();
-	}
-
-	public void OnPostPrev()
-	{
-		PageNumber = Math.Max(1, PageNumber - 1);
-		Run();
-	}
-
-	public void OnPostNext()
-	{
-		PageNumber++;
-		Run();
+		return $"<tr id='{uid}'><td class='text-center' colspan='{Columns.Count}'>{element}</td></tr>";
 	}
 }
