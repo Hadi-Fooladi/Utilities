@@ -102,13 +102,14 @@ public abstract class AutoAppendTablePageModel<TEntity> : AutoAppendTablePageMod
 
 		var table = new Table(Columns, GetRows(query, skipCount + 1))
 		{
-			AfterRowsHtml = page < pageCount ? GetLoadMoreRowHtml(page + 1) : null
+			AfterRowsHtml = page < pageCount ? GetLoadMoreRowHtml(page + 1, rowsPerPage) : null
 		};
 
 		return Partial("TableRows", table);
 	}
 
-	string GetLoadMoreRowHtml(int page)
+	string GetLoadMoreRowHtml(int page) => GetLoadMoreRowHtml(page, RowsPerPage);
+	string GetLoadMoreRowHtml(int page, int rowsPerPage)
 	{
 		var uid = $"tr_{Guid.NewGuid():N}";
 		var element = new Element
@@ -118,7 +119,7 @@ public abstract class AutoAppendTablePageModel<TEntity> : AutoAppendTablePageMod
 			Attributes = new()
 			{
 				["class"] = "btn btn-primary btn-light",
-				["hx-get"] = $"?handler=LoadMore&page={page}&rowsPerPage={RowsPerPage}",
+				["hx-get"] = $"?handler=LoadMore&page={page}&rowsPerPage={rowsPerPage}",
 				["hx-swap"] = "outerHTML",
 				["hx-target"] = $"#{uid}",
 				["hx-include"] = FormId == null ? "closest form" : $"#{FormId}"
