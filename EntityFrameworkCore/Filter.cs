@@ -5,26 +5,27 @@ using System.Collections.Generic;
 
 namespace HaFT.Utilities.EntityFrameworkCore;
 
+/// <summary>
+/// Note: Null values and empty strings are ignored.
+/// </summary>
 public class Filter
 {
 	public IQueryable<TEntity> Apply<TEntity>(IQueryable<TEntity> query)
 	{
 		var builder = new QueryBuilder<TEntity>(query);
 
-		foreach (var (p, attr) in Attributes)
+		foreach (var (p, attr, value) in Attributes)
 		{
 			switch (attr)
 			{
 			case FilterCheckEnum.Contains:
-				builder.CheckContains(p.Name, value() as string);
+				builder.CheckContains(p.Name, value as string);
 				break;
 
 			case FilterCheckEnum.Equiality:
-				builder.CheckEquiality(p.Name, value());
+				builder.CheckEquiality(p.Name, value);
 				break;
 			}
-
-			object? value() => p.GetValue(this);
 		}
 
 		return builder.Query;
@@ -34,7 +35,7 @@ public class Filter
 	{
 		get
 		{
-			foreach (var (p, attr) in Attributes)
+			foreach (var (p, attr, value) in Attributes)
 			{
 				var op = attr switch
 				{
@@ -43,12 +44,12 @@ public class Filter
 					_ => "???"
 				};
 
-				yield return $"{p.Name} {op} '{p.GetValue(this)}'";
+				yield return $"{p.Name} {op} '{value}'";
 			}
 		}
 	}
 
-	IEnumerable<(PropertyInfo property, FilterCheckEnum attr)> Attributes
+	IEnumerable<(PropertyInfo property, FilterCheckEnum attr, object value)> Attributes
 	{
 		get
 		{
@@ -57,11 +58,21 @@ public class Filter
 				var attr = p.GetCustomAttribute<CheckAttribute>();
 				if (attr == null) continue;
 
-				yield return attr.Value switch
+				var value = p.GetValue(this);
+				switch (value)
 				{
-					FilterCheckEnum.Contains or FilterCheckEnum.Equiality => (p, attr.Value),
-					_ => throw new Exception("Unexpected `Value` for `CheckAttribute`")
-				};
+				case null:
+				case string s when string.IsNullOrEmpty(s):
+					continue;
+
+				default:
+					yield return attr.Value switch
+					{
+						FilterCheckEnum.Contains or FilterCheckEnum.Equiality => (p, attr.Value, value),
+						_ => throw new Exception("Unexpected `Value` for `CheckAttribute`")
+					};
+					break;
+				}
 			}
 		}
 	}
