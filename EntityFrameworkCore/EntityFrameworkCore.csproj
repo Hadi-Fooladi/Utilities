@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Version>0.0.1</Version>
+		<Nullable>enable</Nullable>
+		<TargetFramework>net8.0</TargetFramework>
+
+		<Company>HaFT</Company>
+		<Authors>Hadi Fooladi Talari</Authors>
+
+		<AssemblyName>HaFT.Utilities.EntityFrameworkCore</AssemblyName>
+		<RootNamespace>HaFT.Utilities.EntityFrameworkCore</RootNamespace>
+
+		<RepositoryUrl>https://github.com/Hadi-Fooladi/Utilities</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Hadi-Fooladi/Utilities</PackageProjectUrl>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13" />
+	</ItemGroup>
+
+</Project>
