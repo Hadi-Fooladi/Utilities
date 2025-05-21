@@ -10,6 +10,8 @@ namespace HaFT.Utilities.EntityFrameworkCore;
 /// </summary>
 public class Filter
 {
+	protected virtual string GetFilterValueText(object value) => $"{value}";
+
 	public IQueryable<TEntity> Apply<TEntity>(IQueryable<TEntity> query)
 	{
 		var builder = new QueryBuilder<TEntity>(query);
@@ -44,7 +46,7 @@ public class Filter
 					_ => "???"
 				};
 
-				yield return $"{attr.Name ?? p.Name} {op} '{value}'";
+				yield return $"{attr.Name ?? p.Name} {op} '{GetFilterValueText(value)}'";
 			}
 		}
 	}
