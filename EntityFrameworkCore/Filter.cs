@@ -16,7 +16,7 @@ public class Filter
 
 		foreach (var (p, attr, value) in Attributes)
 		{
-			switch (attr)
+			switch (attr.Value)
 			{
 			case FilterCheckEnum.Contains:
 				builder.CheckContains(p.Name, value as string);
@@ -37,19 +37,19 @@ public class Filter
 		{
 			foreach (var (p, attr, value) in Attributes)
 			{
-				var op = attr switch
+				var op = attr.Value switch
 				{
 					FilterCheckEnum.Contains => "Contains",
 					FilterCheckEnum.Equiality => "=",
 					_ => "???"
 				};
 
-				yield return $"{p.Name} {op} '{value}'";
+				yield return $"{attr.Name ?? p.Name} {op} '{value}'";
 			}
 		}
 	}
 
-	IEnumerable<(PropertyInfo property, FilterCheckEnum attr, object value)> Attributes
+	IEnumerable<(PropertyInfo property, CheckAttribute attr, object value)> Attributes
 	{
 		get
 		{
@@ -68,7 +68,7 @@ public class Filter
 				default:
 					yield return attr.Value switch
 					{
-						FilterCheckEnum.Contains or FilterCheckEnum.Equiality => (p, attr.Value, value),
+						FilterCheckEnum.Contains or FilterCheckEnum.Equiality => (p, attr, value),
 						_ => throw new Exception("Unexpected `Value` for `CheckAttribute`")
 					};
 					break;

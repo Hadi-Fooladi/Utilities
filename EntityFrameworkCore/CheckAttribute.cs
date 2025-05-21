@@ -7,5 +7,14 @@ public class CheckAttribute : Attribute
 {
 	public FilterCheckEnum Value { get; set; }
 
-	public CheckAttribute(FilterCheckEnum value) { Value = value; }
+	/// <summary>
+	/// If null, property name will be used.
+	/// </summary>
+	public string? Name { get; set; }
+
+	public CheckAttribute(FilterCheckEnum value, string? name = null)
+	{
+		Name = name;
+		Value = value;
+	}
 }
