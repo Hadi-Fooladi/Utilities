@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Razor", "Tests\Razor\Razor.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCore", "EntityFrameworkCore\EntityFrameworkCore.csproj", "{1BFB199E-62FD-4C1C-9117-F902C6A68952}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClosedXML", "ClosedXML\ClosedXML.csproj", "{E1B71055-2264-43A9-9AB4-CD9CC92AB900}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{1BFB199E-62FD-4C1C-9117-F902C6A68952}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BFB199E-62FD-4C1C-9117-F902C6A68952}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BFB199E-62FD-4C1C-9117-F902C6A68952}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1B71055-2264-43A9-9AB4-CD9CC92AB900}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1B71055-2264-43A9-9AB4-CD9CC92AB900}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1B71055-2264-43A9-9AB4-CD9CC92AB900}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1B71055-2264-43A9-9AB4-CD9CC92AB900}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

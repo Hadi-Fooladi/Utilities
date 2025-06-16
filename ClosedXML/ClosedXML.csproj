@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Version>1.0.1</Version>
+		<Nullable>enable</Nullable>
+		<TargetFramework>net8.0</TargetFramework>
+
+		<Company>HaFT</Company>
+		<Authors>Hadi Fooladi Talari</Authors>
+
+		<AssemblyName>HaFT.Utilities.ClosedXML</AssemblyName>
+		<RootNamespace>HaFT.Utilities.ClosedXML</RootNamespace>
+
+		<RepositoryUrl>https://github.com/Hadi-Fooladi/Utilities</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Hadi-Fooladi/Utilities</PackageProjectUrl>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ClosedXML" Version="0.105.0" />
+	</ItemGroup>
+
+</Project>
