@@ -17,13 +17,15 @@ public class ExcelSheetWriter
 
 	public Action<IXLStyle>? StyleChanger { get; set; }
 
+	public IXLCell CurrentCell => _sheet.Cell(Row, Col);
+
 	public void MoveTo(int row, int col) { Row = row; Col = col; }
 
 	public void Write(object? value) { Write(value, StyleChanger); }
 
 	public void Write(object? value, Action<IXLStyle>? styleChanger)
 	{
-		var cell = _sheet.Cell(Row, Col);
+		var cell = CurrentCell;
 		cell.Value = XLCellValue.FromObject(value);
 
 		styleChanger?.Invoke(cell.Style);
