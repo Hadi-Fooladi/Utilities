@@ -61,25 +61,25 @@ public abstract class TablePageModel<TEntity> : TablePageModel
 		IsNextEnabled = PageNumber < pageCount;
 	}
 
-	public void OnGet()
+	public virtual void OnGet()
 	{
 		PageNumber = 1;
 		Run();
 	}
 
-	public void OnPost()
+	public virtual void OnPost()
 	{
 		PageNumber = 1;
 		Run();
 	}
 
-	public void OnPostPrev()
+	public virtual void OnPostPrev()
 	{
 		PageNumber = Math.Max(1, PageNumber - 1);
 		Run();
 	}
 
-	public void OnPostNext()
+	public virtual void OnPostNext()
 	{
 		PageNumber++;
 		Run();

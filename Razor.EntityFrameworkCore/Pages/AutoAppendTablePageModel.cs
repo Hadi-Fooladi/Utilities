@@ -78,11 +78,11 @@ public abstract class AutoAppendTablePageModel<TEntity> : AutoAppendTablePageMod
 		OriginalSortByColumnIndex = SortByColumnIndex;
 	}
 
-	public void OnGet() { Run(); }
+	public virtual void OnGet() { Run(); }
 
-	public void OnPost() { Run(); }
+	public virtual void OnPost() { Run(); }
 
-	public IActionResult OnGetLoadMore([FromQuery] int page, [FromQuery] int rowsPerPage)
+	public virtual IActionResult OnGetLoadMore([FromQuery] int page, [FromQuery] int rowsPerPage)
 	{
 		DeserializeFilters(Filters);
 
