@@ -10,7 +10,10 @@ using Models;
 
 public class BaseTablePageModel : PageModel
 {
-	public required IReadOnlyList<Table.Column> Columns { get; init; }
+	/// <summary>
+	/// Must be set before the page is rendered.
+	/// </summary>
+	public IReadOnlyList<Table.Column> Columns { get; set; } = null!;
 
 	public Table Table { get; protected set; } = null!;
 
