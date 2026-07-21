@@ -1,4 +1,5 @@
-﻿global using RowCollection = System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<object?>>;
+﻿global using Row = System.Collections.Generic.IEnumerable<object?>;
+global using RowCollection = System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<object?>>;
 
 using System;
 using System.Collections.Generic;

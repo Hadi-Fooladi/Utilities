@@ -1,0 +1,35 @@
+﻿@using System.Collections
+@using HaFT.Utilities.Razor.Models
+
+@model (Row Row, IReadOnlyList<Table.Column> Columns)
+
+@{
+	var rowClasses = (Model.Row as ITableRow)?.Classes;
+
+	<tr class="align-middle @rowClasses">
+		@{
+			int ndx = 0;
+			foreach (var obj in Model.Row)
+			{
+				var col = Model.Columns[ndx++];
+				var cls = col.Alignment switch
+				{
+					HorizontalAlignment.Center => "text-center",
+					HorizontalAlignment.Right => "text-end",
+					_ => null
+				};
+
+				<td class="@cls">
+					@{
+						if (obj is IEnumerable list)
+							foreach (var item in list)
+								toHTML(item);
+						else toHTML(obj!);
+
+						void toHTML(object cell) { @Html.Raw(cell) }
+					}
+				</td>
+			}
+		}
+	</tr>
+}
