@@ -15,8 +15,16 @@ public class IndexModel : PageModel
 	{
 		Table = new Table(s_columns, rows());
 
-		Table.SortedColumn = Table.Columns[2];
-		Table.SortDirection = SortDirection.Descending;
+		//Table.SortedColumn = Table.Columns[2];
+		//Table.SortDirection = SortDirection.Descending;
+
+		Table.SortRules =
+		[
+			new SortRule { Column = Table.Columns[2], Direction = SortDirection.Descending },
+			new SortRule { Column = Table.Columns[3], Direction = SortDirection.Ascending },
+		];
+
+		Table.GetSortNumberHTML = num => $"<{num}>";
 
 		IEnumerable<Row> rows()
 		{

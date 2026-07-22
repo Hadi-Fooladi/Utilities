@@ -2,6 +2,7 @@
 global using RowCollection = System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<object?>>;
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -18,14 +19,41 @@ public class Table
 		Columns = columns;
 	}
 
+	SortDirection _sortDirection;
+
 	public static Table FromList<T>(IReadOnlyList<Column> columns, IEnumerable<T> list, Func<T, IEnumerable<object>> toRow)
 		=> new(columns, list.GenerateRows(toRow));
 
 	public required RowCollection Rows { get; set; }
 	public required IReadOnlyList<Column> Columns { get; set; }
 
-	public Column? SortedColumn { get; set; }
-	public SortDirection SortDirection { get; set; }
+	[Obsolete("Use 'SortRules'")]
+	public Column? SortedColumn
+	{
+		get => SortRules.FirstOrDefault()?.Column;
+
+		set
+		{
+			if (value == null) SortRules = [];
+			else SortRules = [new SortRule { Column = value, Direction = _sortDirection }];
+		}
+	}
+
+	[Obsolete("Use 'SortRules'")]
+	public SortDirection SortDirection
+	{
+		get => SortRules.FirstOrDefault()?.Direction ?? _sortDirection;
+
+		set
+		{
+			_sortDirection = value;
+
+			var rule = SortRules.FirstOrDefault();
+			if (rule != null) rule.Direction = value;
+		}
+	}
+
+	public List<SortRule> SortRules { get; set; } = [];
 
 	public string SortHtml { get; set; } = SORT;
 	public string SortUpHtml { get; set; } = SORT_UP;
@@ -36,6 +64,8 @@ public class Table
 	public string? ClearSortCallBack { get; set; } /*= "(function(ndx) { alert('Clear Sort' + ndx) })";*/
 
 	public string? AfterRowsHtml { get; set; }
+
+	public Func<int, string> GetSortNumberHTML { get; set; } = num => num.ToString();
 
 	#region Nested Classes
 	public class Column

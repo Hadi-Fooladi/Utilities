@@ -2,6 +2,11 @@
 
 @model HaFT.Utilities.Razor.Models.Table
 
+@{
+	var sortRules = Model.SortRules;
+	var hasMultipleSortColumns = sortRules.Count > 1;
+}
+
 <table class="table table-bordered table-striped table-hover m-0">
 
 	<thead class="thead-dark">
@@ -23,33 +28,41 @@
 					{
 						<div style="display: flex">
 							<div style="flex: 1">@Html.Raw(header)</div>
-							
-							@{
-								string html;
-								string? callback;
-								if (Model.SortedColumn == col)
-								{
-									if (Model.SortDirection == SortDirection.Ascending)
+
+								@{
+									int? num = null;
+									string html;
+									string? callback;
+									var ndx = sortRules.FindIndex(r => r.Column == col);
+									if (ndx != -1)
 									{
-										html = Model.SortUpHtml;
-										callback = Model.SortDownCallBack;
+										var rule = sortRules[ndx];
+										if (rule.Direction == SortDirection.Ascending)
+										{
+											html = Model.SortUpHtml;
+											callback = Model.SortDownCallBack;
+										}
+										else
+										{
+											html = Model.SortDownHtml;
+											callback = Model.ClearSortCallBack;
+										}
+
+										if (hasMultipleSortColumns)
+											num = ndx + 1;
 									}
 									else
 									{
-										html = Model.SortDownHtml;
-										callback = Model.ClearSortCallBack;
+										html = Model.SortHtml;
+										callback = Model.SortUpCallBack;
 									}
-								}
-								else
-								{
-									html = Model.SortHtml;
-									callback = Model.SortUpCallBack;
-								}
 
-								var onclick = callback == null ? null : $"{callback}({columnIndex})";
-							}
+									var onclick = callback == null ? null : $"{callback}({columnIndex})";
+								}
 
 							<div style="width: 0.8em; cursor: pointer" onclick="@onclick">@Html.Raw(html)</div>
+							
+							@if (num != null) { @Html.Raw(Model.GetSortNumberHTML(num.Value)) }
 						</div>
 					}
 					else
