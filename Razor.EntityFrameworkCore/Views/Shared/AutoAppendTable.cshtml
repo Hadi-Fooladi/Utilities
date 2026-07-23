@@ -3,8 +3,7 @@
 @{
 	var uid = $"div_{Guid.NewGuid():N}";
 
-	<input asp-for="SortByColumnIndex" />
-	<input asp-for="SortDirection" />
+	<input asp-for="SortRulesJson" />
 
 	<input asp-for="Filters" />
 	<input asp-for="OriginalSortByColumnIndex" />

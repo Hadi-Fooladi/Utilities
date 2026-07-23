@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+
 using Microsoft.AspNetCore.Mvc;
 
 using HaFT.Utilities.Razor.EntityFrameworkCore.Pages;
@@ -16,8 +18,8 @@ public class PersonsModel : TablePageModel<Person>
 	static readonly IReadOnlyList<Column> s_columns =
 	[
 		Column.Center("#"),
-		Column.Left("First Name").Sortable(),
-		Column.Left("Last Name").Sortable()
+		Cols.FirstName,
+		Cols.LastName
 	];
 	#endregion
 
@@ -34,18 +36,23 @@ public class PersonsModel : TablePageModel<Person>
 
 	protected override void ApplySort(ref IQueryable<Person> query)
 	{
-		switch (SortByColumnIndex)
+		foreach (var rule in SortRules)
 		{
-		case 1:
-			query = SortDirection == SortDirection.Ascending
-				? query.OrderBy(p => p.FirstName)
-				: query.OrderByDescending(p => p.FirstName);
-			break;
-		case 2:
-			query = SortDirection == SortDirection.Ascending
-				? query.OrderBy(p => p.LastName)
-				: query.OrderByDescending(p => p.LastName);
-			break;
+			Expression<Func<Person, string?>>? expr = null;
+
+			if (rule.Column == Cols.FirstName) expr = p => p.FirstName;
+			else if (rule.Column == Cols.LastName) expr = p => p.LastName;
+
+			if (expr == null) continue;
+
+			if (query is IOrderedQueryable<Person> q)
+				query = rule.Direction == SortDirection.Ascending
+					? q.ThenBy(expr)
+					: q.ThenByDescending(expr);
+			else
+				query = rule.Direction == SortDirection.Ascending
+					? query.OrderBy(expr)
+					: query.OrderByDescending(expr);
 		}
 	}
 
@@ -87,5 +94,12 @@ public class PersonsModel : TablePageModel<Person>
 			filterTexts = builder.Texts;
 			return builder.Query;
 		}
+	}
+
+	static class Cols
+	{
+		public static readonly Column
+			FirstName = Column.Left("First Name").Sortable(),
+			LastName = Column.Left("Last Name").Sortable();
 	}
 }

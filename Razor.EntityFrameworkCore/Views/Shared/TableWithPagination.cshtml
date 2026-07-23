@@ -3,8 +3,7 @@
 @{
 	var uid = $"div_{Guid.NewGuid():N}";
 
-	<input asp-for="SortByColumnIndex" />
-	<input asp-for="SortDirection" />
+	<input asp-for="SortRulesJson" />
 
 	await write("align-items-end");
 
@@ -34,25 +33,27 @@
 	HaFT.Razor = HaFT.Razor || {};
 	HaFT.Razor.EntityFrameworkCore = HaFT.Razor.EntityFrameworkCore || {};
 
+	let sortRules = JSON.parse(document.getElementById("SortRulesJson").value);
+
 	HaFT.Razor.EntityFrameworkCore.TableWithPagination = {
 		sortUp: function(ndx) {
-			$("#SortByColumnIndex").val(ndx);
-			$("#SortDirection").val("Ascending");
+			sortRules.push({ columnIndex: ndx, isAscending: true });
 			this.submitForm();
 		},
 
 		sortDown: function(ndx) {
-			$("#SortByColumnIndex").val(ndx);
-			$("#SortDirection").val("Descending");
+			sortRules.find(rule => rule.columnIndex == ndx).isAscending = false;
 			this.submitForm();
 		},
 
-		clearSort: function() {
-			$("#SortByColumnIndex").val(-1);
+		clearSort: function(ndx) {
+			sortRules = sortRules.filter(rule => rule.columnIndex != ndx);
 			this.submitForm();
 		},
 
 		submitForm: function() {
+			$("#SortRulesJson").val(JSON.stringify(sortRules));
+
 			const form =
 			@if (Model.FormId == null)
 			{

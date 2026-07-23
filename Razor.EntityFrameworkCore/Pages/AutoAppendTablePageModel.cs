@@ -60,8 +60,7 @@ public abstract class AutoAppendTablePageModel<TEntity> : AutoAppendTablePageMod
 
 		var table = new Table(Columns, GetRows(query, 1))
 		{
-			SortDirection = SortDirection,
-			SortedColumn = SortByColumnIndex >= 0 ? Columns[SortByColumnIndex] : null,
+			SortRules = SortRules,
 			SortUpCallBack = $"{JS_OBJECT}.sortUp",
 			SortDownCallBack = $"{JS_OBJECT}.sortDown",
 			ClearSortCallBack = $"{JS_OBJECT}.clearSort",
@@ -74,8 +73,8 @@ public abstract class AutoAppendTablePageModel<TEntity> : AutoAppendTablePageMod
 		ModelState.Remove(nameof(OriginalSortByColumnIndex));
 
 		Filters = SerializeFilters();
-		OriginalSortDirection = SortDirection;
-		OriginalSortByColumnIndex = SortByColumnIndex;
+		//OriginalSortDirection = SortDirection;
+		//OriginalSortByColumnIndex = SortByColumnIndex;
 	}
 
 	public virtual void OnGet() { Run(); }

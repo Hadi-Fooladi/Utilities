@@ -35,19 +35,19 @@ public class Persons2Model : AutoAppendTablePageModel<Person>
 
 	protected override void ApplySort(ref IQueryable<Person> query)
 	{
-		switch (SortByColumnIndex)
-		{
-		case 1:
-			query = SortDirection == SortDirection.Ascending
-				? query.OrderBy(p => p.FirstName)
-				: query.OrderByDescending(p => p.FirstName);
-			break;
-		case 2:
-			query = SortDirection == SortDirection.Ascending
-				? query.OrderBy(p => p.LastName)
-				: query.OrderByDescending(p => p.LastName);
-			break;
-		}
+		//switch (SortByColumnIndex)
+		//{
+		//case 1:
+		//	query = SortDirection == SortDirection.Ascending
+		//		? query.OrderBy(p => p.FirstName)
+		//		: query.OrderByDescending(p => p.FirstName);
+		//	break;
+		//case 2:
+		//	query = SortDirection == SortDirection.Ascending
+		//		? query.OrderBy(p => p.LastName)
+		//		: query.OrderByDescending(p => p.LastName);
+		//	break;
+		//}
 	}
 
 	protected override void ApplyFilters(ref IQueryable<Person> query, out IEnumerable<string>? filterTexts)

@@ -49,8 +49,7 @@ public abstract class TablePageModel<TEntity> : TablePageModel
 
 		var table = new Table(Columns, GetRows(query, skipCount + 1))
 		{
-			SortDirection = SortDirection,
-			SortedColumn = SortByColumnIndex >= 0 ? Columns[SortByColumnIndex] : null,
+			SortRules = SortRules,
 			SortUpCallBack = $"{JS_OBJECT}.sortUp",
 			SortDownCallBack = $"{JS_OBJECT}.sortDown",
 			ClearSortCallBack = $"{JS_OBJECT}.clearSort"
@@ -65,22 +64,26 @@ public abstract class TablePageModel<TEntity> : TablePageModel
 	{
 		PageNumber = 1;
 		Run();
+		UpdateSortRulesJson();
 	}
 
 	public virtual void OnPost()
 	{
+		UpdateSortRules();
 		PageNumber = 1;
 		Run();
 	}
 
 	public virtual void OnPostPrev()
 	{
+		UpdateSortRules();
 		PageNumber = Math.Max(1, PageNumber - 1);
 		Run();
 	}
 
 	public virtual void OnPostNext()
 	{
+		UpdateSortRules();
 		PageNumber++;
 		Run();
 	}
