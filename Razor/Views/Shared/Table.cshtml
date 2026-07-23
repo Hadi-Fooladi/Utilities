@@ -30,13 +30,13 @@
 							<div style="flex: 1">@Html.Raw(header)</div>
 
 								@{
-									int? num = null;
+									int? sortOrderNumber = null;
 									string html;
 									string? callback;
-									var ndx = sortRules.FindIndex(r => r.Column == col);
-									if (ndx != -1)
+									var sortRuleIndex = sortRules.FindIndex(r => r.Column == col);
+									if (sortRuleIndex != -1)
 									{
-										var rule = sortRules[ndx];
+										var rule = sortRules[sortRuleIndex];
 										if (rule.Direction == SortDirection.Ascending)
 										{
 											html = Model.SortUpHtml;
@@ -49,7 +49,7 @@
 										}
 
 										if (hasMultipleSortColumns)
-											num = ndx + 1;
+											sortOrderNumber = sortRuleIndex + 1;
 									}
 									else
 									{
@@ -62,7 +62,7 @@
 
 							<div style="width: 0.8em; cursor: pointer" onclick="@onclick">@Html.Raw(html)</div>
 							
-							@if (num != null) { @Html.Raw(Model.GetSortNumberHTML(num.Value)) }
+							@if (sortOrderNumber != null) { @Html.Raw(Model.GetSortNumberHTML(sortOrderNumber.Value)) }
 						</div>
 					}
 					else
