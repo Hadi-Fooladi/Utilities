@@ -19,7 +19,10 @@ public class PersonsModel : TablePageModel<Person>
 	[
 		Column.Center("#"),
 		Cols.FirstName,
-		Cols.LastName
+		Cols.LastName,
+		Cols.Num1,
+		Cols.Num2,
+		Cols.Num3
 	];
 	#endregion
 
@@ -38,10 +41,17 @@ public class PersonsModel : TablePageModel<Person>
 	{
 		foreach (var rule in SortRules)
 		{
-			Expression<Func<Person, string?>>? expr = null;
+			Expression<Func<Person, object?>>? expr = null;
 
 			if (rule.Column == Cols.FirstName) expr = p => p.FirstName;
-			else if (rule.Column == Cols.LastName) expr = p => p.LastName;
+			else
+				if (rule.Column == Cols.LastName) expr = p => p.LastName;
+				else
+					if (rule.Column == Cols.Num1) expr = p => p.Num1;
+					else
+						if (rule.Column == Cols.Num2) expr = p => p.Num2;
+						else
+							if (rule.Column == Cols.Num3) expr = p => p.Num3;
 
 			if (expr == null) continue;
 
@@ -76,6 +86,9 @@ public class PersonsModel : TablePageModel<Person>
 		{
 			yield return p.FirstName;
 			yield return p.LastName;
+			yield return p.Num1;
+			yield return p.Num2;
+			yield return p.Num3;
 		}
 	}
 
@@ -100,6 +113,9 @@ public class PersonsModel : TablePageModel<Person>
 	{
 		public static readonly Column
 			FirstName = Column.Left("First Name").Sortable(),
-			LastName = Column.Left("Last Name").Sortable();
+			LastName = Column.Left("Last Name").Sortable(),
+			Num1 = Column.Center("Num1").Sortable(),
+			Num2 = Column.Center("Num2").Sortable(),
+			Num3 = Column.Center("Num3").Sortable();
 	}
 }

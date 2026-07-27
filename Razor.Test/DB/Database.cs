@@ -11,7 +11,7 @@ public class Database : DbContext
 
 	public static Database Instance => s_lazyInstance.Value;
 
-	private static readonly Lazy<Database> s_lazyInstance = new(() =>
+	static readonly Lazy<Database> s_lazyInstance = new(() =>
 	{
 		var options = new DbContextOptionsBuilder<Database>()
 			.UseInMemoryDatabase("DB")
@@ -32,6 +32,14 @@ public class Database : DbContext
 		return db;
 
 		static string guid() => Guid.NewGuid().ToString();
-		static Person p(string fn, string ln) => new() { FirstName = fn, LastName = ln };
+		static int RandomNumber() => Random.Shared.Next(1, 10);
+		static Person p(string fn, string ln) => new()
+		{
+			FirstName = fn,
+			LastName = ln,
+			Num1 = RandomNumber(),
+			Num2 = RandomNumber(),
+			Num3 = RandomNumber()
+		};
 	});
 }
