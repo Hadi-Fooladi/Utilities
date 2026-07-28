@@ -57,7 +57,7 @@
 										callback = Model.SortUpCallBack;
 									}
 
-									var onclick = callback == null ? null : $"{callback}({columnIndex})";
+									var onclick = callback == null ? null : $"{callback}({columnIndex}, event)";
 								}
 
 							<div style="width: 0.8em; cursor: pointer" onclick="@onclick">@Html.Raw(html)</div>
