@@ -20,7 +20,7 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 
 		<!--<ProjectReference Include="..\Razor\Razor.csproj" />-->
-		<PackageReference Include="HaFT.Utilities.Razor" Version="3.1.9" />
+		<PackageReference Include="HaFT.Utilities.Razor" Version="3.4.12" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13" />
 	</ItemGroup>
 
