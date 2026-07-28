@@ -1,12 +1,13 @@
 using System.Text.Json;
-using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 
-using HaFT.Utilities.Razor.EntityFrameworkCore.Pages;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HaFT.Utilities.Razor.Test.Pages;
 
 using DB;
 using Models;
+using EntityFrameworkCore.Pages;
 using Column = Models.Table.Column;
 
 public class Persons2Model : AutoAppendTablePageModel<Person>
@@ -17,8 +18,11 @@ public class Persons2Model : AutoAppendTablePageModel<Person>
 	static readonly IReadOnlyList<Column> s_columns =
 	[
 		Column.Center("#"),
-		Column.Left("First Name").Sortable(),
-		Column.Left("Last Name").Sortable()
+		Cols.FirstName,
+		Cols.LastName,
+		Cols.Num1,
+		Cols.Num2,
+		Cols.Num3
 	];
 	#endregion
 
@@ -35,19 +39,31 @@ public class Persons2Model : AutoAppendTablePageModel<Person>
 
 	protected override void ApplySort(ref IQueryable<Person> query)
 	{
-		//switch (SortByColumnIndex)
-		//{
-		//case 1:
-		//	query = SortDirection == SortDirection.Ascending
-		//		? query.OrderBy(p => p.FirstName)
-		//		: query.OrderByDescending(p => p.FirstName);
-		//	break;
-		//case 2:
-		//	query = SortDirection == SortDirection.Ascending
-		//		? query.OrderBy(p => p.LastName)
-		//		: query.OrderByDescending(p => p.LastName);
-		//	break;
-		//}
+		foreach (var rule in SortRules)
+		{
+			Expression<Func<Person, object?>>? expr = null;
+
+			if (rule.Column == Cols.FirstName) expr = p => p.FirstName;
+			else
+				if (rule.Column == Cols.LastName) expr = p => p.LastName;
+				else
+					if (rule.Column == Cols.Num1) expr = p => p.Num1;
+					else
+						if (rule.Column == Cols.Num2) expr = p => p.Num2;
+						else
+							if (rule.Column == Cols.Num3) expr = p => p.Num3;
+
+			if (expr == null) continue;
+
+			if (query is IOrderedQueryable<Person> q)
+				query = rule.Direction == SortDirection.Ascending
+					? q.ThenBy(expr)
+					: q.ThenByDescending(expr);
+			else
+				query = rule.Direction == SortDirection.Ascending
+					? query.OrderBy(expr)
+					: query.OrderByDescending(expr);
+		}
 	}
 
 	protected override void ApplyFilters(ref IQueryable<Person> query, out IEnumerable<string>? filterTexts)
@@ -70,6 +86,9 @@ public class Persons2Model : AutoAppendTablePageModel<Person>
 		{
 			yield return p.FirstName;
 			yield return p.LastName;
+			yield return p.Num1;
+			yield return p.Num2;
+			yield return p.Num3;
 		}
 	}
 
@@ -99,5 +118,15 @@ public class Persons2Model : AutoAppendTablePageModel<Person>
 			filterTexts = builder.Texts;
 			return builder.Query;
 		}
+	}
+
+	static class Cols
+	{
+		public static readonly Column
+			FirstName = Column.Left("First Name").Sortable(),
+			LastName = Column.Left("Last Name").Sortable(),
+			Num1 = Column.Center("Num1").Sortable(),
+			Num2 = Column.Center("Num2").Sortable(),
+			Num3 = Column.Center("Num3").Sortable();
 	}
 }
