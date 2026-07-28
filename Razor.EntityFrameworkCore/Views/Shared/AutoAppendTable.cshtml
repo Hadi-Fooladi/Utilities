@@ -6,8 +6,7 @@
 	<input asp-for="SortRulesJson" />
 
 	<input asp-for="Filters" />
-	<input asp-for="OriginalSortByColumnIndex" />
-	<input asp-for="OriginalSortDirection" />
+	<input asp-for="OriginalSortRulesJson" />
 
 	write();
 
@@ -30,35 +29,45 @@
 	HaFT.Razor = HaFT.Razor || {};
 	HaFT.Razor.EntityFrameworkCore = HaFT.Razor.EntityFrameworkCore || {};
 
-	HaFT.Razor.EntityFrameworkCore.TableWithPagination = {
-		sortUp: function(ndx) {
-			$("#SortByColumnIndex").val(ndx);
-			$("#SortDirection").val("Ascending");
-			this.submitForm();
-		},
+	HaFT.Razor.EntityFrameworkCore.TableWithPagination = function() {
+		let sortRules = JSON.parse(document.getElementById("SortRulesJson").value);
 
-		sortDown: function(ndx) {
-			$("#SortByColumnIndex").val(ndx);
-			$("#SortDirection").val("Descending");
-			this.submitForm();
-		},
+		function newRule(columnIndex, isAscending) { return { columnIndex, isAscending } }
 
-		clearSort: function() {
-			$("#SortByColumnIndex").val(-1);
-			this.submitForm();
-		},
+		return {
+			sortUp: function(ndx, event) {
+				const rule = newRule(ndx, true);
 
-		submitForm: function() {
-			const form =
-			@if (Model.FormId == null)
-			{
-				@: $("#@uid").closest("form");
+				if (event.shiftKey) sortRules.push(rule);
+				else sortRules = [rule];
+
+				this.submitForm();
+			},
+			sortDown: function(ndx, event) {
+				if (event.shiftKey) sortRules.find(rule => rule.columnIndex == ndx).isAscending = false;
+				else sortRules = [newRule(ndx, false)];
+
+				this.submitForm();
+			},
+			clearSort: function(ndx, event) {
+				if (event.shiftKey) sortRules = sortRules.filter(rule => rule.columnIndex != ndx);
+				else sortRules = [];
+
+				this.submitForm();
+			},
+			submitForm: function() {
+				$("#SortRulesJson").val(JSON.stringify(sortRules));
+				const form =
+				@if (Model.FormId == null)
+				{
+					@: $("#@uid").closest("form");
+				}
+				else
+				{
+					@: $("#@Model.FormId");
+				}
+				form.submit();
 			}
-			else
-			{
-				@: $("#@Model.FormId");
-			}
-			form.submit();
-		}
-	};
+		};
+	}();
 </script>

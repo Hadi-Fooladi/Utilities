@@ -12,13 +12,10 @@ using Models.HTML;
 public class AutoAppendTablePageModel : BaseTablePageModel
 {
 	[BindProperty(SupportsGet = true), HiddenInput]
-	public int OriginalSortByColumnIndex { get; set; }
-
-	[BindProperty(SupportsGet = true), HiddenInput]
-	public SortDirection OriginalSortDirection { get; set; }
-
-	[BindProperty(SupportsGet = true), HiddenInput]
 	public string? Filters { get; set; }
+
+	[BindProperty(SupportsGet = true), HiddenInput]
+	public string OriginalSortRulesJson { get; set; } = null!;
 }
 
 public abstract class AutoAppendTablePageModel<TEntity> : AutoAppendTablePageModel
@@ -69,21 +66,29 @@ public abstract class AutoAppendTablePageModel<TEntity> : AutoAppendTablePageMod
 		Table = table;
 
 		ModelState.Remove(nameof(Filters));
-		ModelState.Remove(nameof(OriginalSortDirection));
-		ModelState.Remove(nameof(OriginalSortByColumnIndex));
+		ModelState.Remove(nameof(OriginalSortRulesJson));
 
 		Filters = SerializeFilters();
-		//OriginalSortDirection = SortDirection;
-		//OriginalSortByColumnIndex = SortByColumnIndex;
+		OriginalSortRulesJson = SortRulesJson;
 	}
 
-	public virtual void OnGet() { Run(); }
+	public virtual void OnGet()
+	{
+		UpdateSortRulesJson();
+		Run();
+	}
 
-	public virtual void OnPost() { Run(); }
+	public virtual void OnPost()
+	{
+		UpdateSortRules();
+		Run();
+	}
 
 	public virtual IActionResult OnGetLoadMore([FromQuery] int page, [FromQuery] int rowsPerPage)
 	{
 		DeserializeFilters(Filters);
+		SortRulesJson = OriginalSortRulesJson;
+		UpdateSortRules();
 
 		var query = Query;
 		ApplyFilters(ref query, out _);
