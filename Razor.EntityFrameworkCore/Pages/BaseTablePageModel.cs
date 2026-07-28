@@ -47,8 +47,8 @@ public class BaseTablePageModel : PageModel
 	protected void UpdateSortRules()
 	{
 		SortRules = JsonSerializer.Deserialize<List<SortRuleWithIndex>>(SortRulesJson, s_serializerOptions)!
-				.Select(convert)
-				.ToList();
+			.Select(convert)
+			.ToList();
 
 		SortRule convert(SortRuleWithIndex rule)
 			=> new()

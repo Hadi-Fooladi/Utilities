@@ -33,37 +33,46 @@
 	HaFT.Razor = HaFT.Razor || {};
 	HaFT.Razor.EntityFrameworkCore = HaFT.Razor.EntityFrameworkCore || {};
 
-	let sortRules = JSON.parse(document.getElementById("SortRulesJson").value);
 
-	HaFT.Razor.EntityFrameworkCore.TableWithPagination = {
-		sortUp: function(ndx) {
-			sortRules.push({ columnIndex: ndx, isAscending: true });
-			this.submitForm();
-		},
+	HaFT.Razor.EntityFrameworkCore.TableWithPagination = function() {
+		let sortRules = JSON.parse(document.getElementById("SortRulesJson").value);
 
-		sortDown: function(ndx) {
-			sortRules.find(rule => rule.columnIndex == ndx).isAscending = false;
-			this.submitForm();
-		},
+		function newRule(columnIndex, isAscending) { return { columnIndex, isAscending } }
 
-		clearSort: function(ndx) {
-			sortRules = sortRules.filter(rule => rule.columnIndex != ndx);
-			this.submitForm();
-		},
+		return {
+			sortUp: function(ndx, event) {
+				const rule = newRule(ndx, true);
+				
+				if (event.shiftKey) sortRules.push(rule);
+				else sortRules = [rule];
 
-		submitForm: function() {
-			$("#SortRulesJson").val(JSON.stringify(sortRules));
+				this.submitForm();
+			},
+			sortDown: function(ndx, event) {
+				if (event.shiftKey) sortRules.find(rule => rule.columnIndex == ndx).isAscending = false;
+				else sortRules = [newRule(ndx, false)];
 
-			const form =
-			@if (Model.FormId == null)
-			{
+				this.submitForm();
+			},
+			clearSort: function(ndx, event) {
+				if (event.shiftKey) sortRules = sortRules.filter(rule => rule.columnIndex != ndx);
+				else sortRules = [];
+
+				this.submitForm();
+			},
+			submitForm: function() {
+				$("#SortRulesJson").val(JSON.stringify(sortRules));
+				const form =
+				@if (Model.FormId == null)
+				{
 				@: $("#@uid").closest("form");
-			}
-			else
-			{
+				}
+				else
+				{
 				@: $("#@Model.FormId");
+				}
+				form.submit();
 			}
-			form.submit();
-		}
-	};
+		};
+	}();
 </script>
