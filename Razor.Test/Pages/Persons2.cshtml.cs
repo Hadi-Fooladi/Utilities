@@ -103,6 +103,11 @@ public class Persons2Model : AutoAppendTablePageModel<Person>
 		catch { }
 	}
 
+	protected override void CustomizeTableAppearance()
+	{
+		Table.GetSortNumberHTML = num => num is >= 1 and <= 9 ? $"<i class='bi bi-{num}-circle ms-1'></i>" : $"{num}";
+	}
+
 	public class FilterType
 	{
 		public string? FirstName { get; set; }
