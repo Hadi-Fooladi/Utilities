@@ -2,24 +2,28 @@
 
 @{
 	var uid = $"div_{Guid.NewGuid():N}";
+	var statisticsFiltersText = Model.StatisticsFiltersText;
+	var isStatisticsFiltersEmpty = string.IsNullOrEmpty(statisticsFiltersText);
 
 	<input asp-for="SortRulesJson" />
 
 	<input asp-for="Filters" />
 	<input asp-for="OriginalSortRulesJson" />
 
-	write();
+	writeStatisticsAndFilters();
 
 	<div id="@uid" class="row">
 		<partial name="Table" model="Model.Table"/>
 	</div>
 
-	write();
+	writeStatisticsAndFilters();
 
-	void write()
+	void writeStatisticsAndFilters()
 	{
+		@if (isStatisticsFiltersEmpty) return;
+
 		<div class="row my-1">
-			@Model.Statistics - @Model.FilterText
+			@statisticsFiltersText
 		</div>
 	}
 }

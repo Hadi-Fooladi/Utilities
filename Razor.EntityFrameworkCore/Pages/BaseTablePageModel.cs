@@ -20,7 +20,7 @@ public class BaseTablePageModel : PageModel
 	public Table Table { get; protected set; } = null!;
 
 	public string FilterText { get; protected set; } = "No filters";
-	public string Statistics { get; protected set; } = null!;
+	public string Statistics { get; protected set; } = "";
 
 	public string? FormId { get; set; }
 
@@ -31,6 +31,23 @@ public class BaseTablePageModel : PageModel
 	public string SortRulesJson { get; set; } = null!;
 
 	public List<SortRule> SortRules { get; set; } = [];
+
+	public bool ShowFilters { get; set; } = true;
+	public bool ShowStatistics { get; set; } = true;
+
+	public string StatisticsFiltersText
+	{
+		get
+		{
+			return string.Join(" - ", parts());
+
+			IEnumerable<string> parts()
+			{
+				if (ShowStatistics) yield return Statistics;
+				if (ShowFilters) yield return FilterText;
+			}
+		}
+	}
 
 	/// <summary>
 	/// Override this method to customize the appearance of the table.<br />

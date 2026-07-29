@@ -2,6 +2,7 @@
 
 @{
 	var uid = $"div_{Guid.NewGuid():N}";
+	var statisticsFiltersText = Model.StatisticsFiltersText;
 
 	<input asp-for="SortRulesJson" />
 
@@ -16,7 +17,7 @@
 	async Task write(string alignment)
 	{
 		<div class="row my-1">
-			<div class="col-9 d-flex @alignment p-0">@Model.Statistics - @Model.FilterText</div>
+			<div class="col-9 d-flex @alignment p-0">@statisticsFiltersText</div>
 			<div class="col-3 d-flex justify-content-end p-0">
 				<nav>
 					<ul class="pagination m-0">

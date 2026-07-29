@@ -30,6 +30,8 @@ public class PersonsModel : TablePageModel<Person>
 	{
 		RowsPerPage = 10;
 		Columns = s_columns;
+		ShowStatistics =
+		ShowFilters = false;
 	}
 
 	[BindProperty]
