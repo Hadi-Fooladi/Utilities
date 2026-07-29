@@ -64,6 +64,7 @@ public abstract class AutoAppendTablePageModel<TEntity> : AutoAppendTablePageMod
 			AfterRowsHtml = pageCount > 1 ? GetLoadMoreRowHtml(2) : null
 		};
 		Table = table;
+		CustomizeTableAppearance();
 
 		ModelState.Remove(nameof(Filters));
 		ModelState.Remove(nameof(OriginalSortRulesJson));

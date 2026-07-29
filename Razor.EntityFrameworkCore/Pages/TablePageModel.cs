@@ -55,6 +55,7 @@ public abstract class TablePageModel<TEntity> : TablePageModel
 			ClearSortCallBack = $"{JS_OBJECT}.clearSort"
 		};
 		Table = table;
+		CustomizeTableAppearance();
 
 		IsPrevEnabled = PageNumber > 1;
 		IsNextEnabled = PageNumber < pageCount;

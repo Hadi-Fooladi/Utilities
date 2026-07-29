@@ -32,6 +32,14 @@ public class BaseTablePageModel : PageModel
 
 	public List<SortRule> SortRules { get; set; } = [];
 
+	/// <summary>
+	/// Override this method to customize the appearance of the table.<br />
+	/// It will be called after the table is instantiated.<br />
+	/// Do not call this method directly.<br />
+	/// Default implementation does nothing.
+	/// </summary>
+	protected virtual void CustomizeTableAppearance() { }
+
 	protected void UpdateSortRulesJson()
 	{
 		SortRulesJson = JsonSerializer.Serialize(SortRules.Select(convert), s_serializerOptions);
