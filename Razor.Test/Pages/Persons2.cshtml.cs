@@ -41,30 +41,19 @@ public class Persons2Model : AutoAppendTablePageModel<Person>
 
 	protected override void ApplySort(ref IQueryable<Person> query)
 	{
-		foreach (var rule in SortRules)
+		query = query.SortBy(SortRules, getExpression);
+
+		static Expression<Func<Person, object?>> getExpression(SortRule rule)
 		{
-			Expression<Func<Person, object?>>? expr = null;
-
-			if (rule.Column == Cols.FirstName) expr = p => p.FirstName;
-			else
-				if (rule.Column == Cols.LastName) expr = p => p.LastName;
-				else
-					if (rule.Column == Cols.Num1) expr = p => p.Num1;
-					else
-						if (rule.Column == Cols.Num2) expr = p => p.Num2;
-						else
-							if (rule.Column == Cols.Num3) expr = p => p.Num3;
-
-			if (expr == null) continue;
-
-			if (query is IOrderedQueryable<Person> q)
-				query = rule.Direction == SortDirection.Ascending
-					? q.ThenBy(expr)
-					: q.ThenByDescending(expr);
-			else
-				query = rule.Direction == SortDirection.Ascending
-					? query.OrderBy(expr)
-					: query.OrderByDescending(expr);
+			return rule.Column switch
+			{
+				var col when col == Cols.FirstName => p => p.FirstName,
+				var col when col == Cols.LastName => p => p.LastName,
+				var col when col == Cols.Num1 => p => p.Num1,
+				var col when col == Cols.Num2 => p => p.Num2,
+				var col when col == Cols.Num3 => p => p.Num3,
+				_ => throw new Exception("Unknown sort column")
+			};
 		}
 	}
 
